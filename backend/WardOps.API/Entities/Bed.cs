@@ -12,5 +12,5 @@ public class Bed
     public string? Notes { get; set; }
 
     public ICollection<Hospitalization> Hospitalizations { get; set; } = new List<Hospitalization>();
-    public ICollection<BedEventLog> BedEventLogs { get; set; } = new List<BedEventLog>();
+    public ICollection<BedEventLog> EventLogs { get; set; } = new List<BedEventLog>();
 }

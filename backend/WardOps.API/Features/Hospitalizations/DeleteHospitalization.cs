@@ -3,10 +3,11 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WardOps.API.Database;
+using WardOps.API.Entities.Enums;
 
-namespace WardOps.API.Features.Patients;
+namespace WardOps.API.Features.Hospitalizations;
 
-public static class DeletePatient
+public static class DeleteHospitalization
 {
     public class Command : IRequest<Unit>
     {
@@ -24,21 +25,21 @@ public static class DeletePatient
 
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
-            var patient = await _dbContext.Patients
-                .Include(p => p.Hospitalizations)
-                .FirstOrDefaultAsync(p => p.Id == request.Id, cancellationToken);
+            var hospitalization = await _dbContext.Hospitalizations
+                .Include(h => h.Bed)
+                .FirstOrDefaultAsync(h => h.Id == request.Id, cancellationToken);
 
-            if (patient == null)
+            if (hospitalization == null)
             {
-                throw new KeyNotFoundException("Patient not found.");
+                throw new KeyNotFoundException("Hospitalization not found.");
             }
 
-            if (patient.Hospitalizations.Any())
+            if (hospitalization.Status == HospitalizationStatus.Active)
             {
-                throw new InvalidOperationException("Cannot delete patient with active or past hospitalizations.");
+                hospitalization.Bed.Status = BedStatus.Available;
             }
 
-            _dbContext.Remove(patient);
+            _dbContext.Hospitalizations.Remove(hospitalization);
             await _dbContext.SaveChangesAsync(cancellationToken);
 
             return Unit.Value;
@@ -46,24 +47,23 @@ public static class DeletePatient
     }
 }
 
-public class DeletePatientEndpoint : ICarterModule
+public class DeleteHospitalizationEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapDelete("api/patients/{id}", async ([FromRoute] Guid id, IMediator mediator) =>
+        app.MapDelete("api/hospitalizations/{id}", async ([FromRoute] Guid id, IMediator mediator) =>
         {
-            var command = new DeletePatient.Command { Id = id };
+            var command = new DeleteHospitalization.Command { Id = id };
 
             await mediator.Send(command);
 
             return Results.NoContent();
         })
-        .WithTags("Patients")
-        .WithName("DeletePatient")
-        .WithDescription("Deletes a specific patient")
+        .WithTags("Hospitalizations")
+        .WithName("DeleteHospitalization")
+        .WithDescription("Delete a hospitalization")
         .Produces(StatusCodes.Status204NoContent)
         .Produces(StatusCodes.Status404NotFound)
-        .Produces(StatusCodes.Status400BadRequest)
         .Produces(StatusCodes.Status500InternalServerError);
     }
 }

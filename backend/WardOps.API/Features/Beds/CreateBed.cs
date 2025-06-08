@@ -2,6 +2,7 @@ using Carter;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using WardOps.API.Common;
 using WardOps.API.Contracts.Beds;
 using WardOps.API.Database;
 using WardOps.API.Entities;
@@ -107,6 +108,7 @@ public class CreateBedEndpoint : ICarterModule
 
             return Results.Created($"/api/beds/{result.Id}", result);
         })
+        .RequireAuthorization(AuthorizationPolicies.AdminPolicy)
         .WithTags("Beds")
         .WithName("CreateBed")
         .WithDescription("Creates a new bed")

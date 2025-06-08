@@ -63,11 +63,11 @@ public class GetCurrentUserEndpoint : ICarterModule
 
             return Results.Ok(result);
         })
+        .RequireAuthorization()
         .WithTags("Authentication")
         .WithName("GetCurrentUser")
         .WithDescription("Gets information about the currently authenticated user")
         .Produces<UserResponse>(StatusCodes.Status200OK)
-        .Produces(StatusCodes.Status404NotFound)
-        .RequireAuthorization();
+        .Produces(StatusCodes.Status404NotFound);
     }
 }

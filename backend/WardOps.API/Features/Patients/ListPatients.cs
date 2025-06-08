@@ -57,6 +57,7 @@ public class ListPatientsEndpoint : ICarterModule
 
             return Results.Ok(response);
         })
+        .RequireAuthorization()
         .WithTags("Patients")
         .WithName("ListPatients")
         .WithDescription("Get list of patients")

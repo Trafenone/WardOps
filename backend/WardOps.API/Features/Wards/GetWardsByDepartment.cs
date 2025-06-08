@@ -68,6 +68,7 @@ public class GetWardsByDepartmentEndpoint : ICarterModule
 
             return Results.Ok(response);
         })
+        .RequireAuthorization()
         .WithTags("Wards")
         .WithName("GetWardsByDepartment")
         .WithDescription("Get list of wards for a specific department")

@@ -109,6 +109,7 @@ public class ChangeBedStatusEndpoint : ICarterModule
 
             return Results.Ok(result);
         })
+        .RequireAuthorization()
         .WithTags("Beds")
         .WithName("ChangeBedStatus")
         .WithDescription("Changes the status of a bed and logs the event")

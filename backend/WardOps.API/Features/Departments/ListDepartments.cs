@@ -52,6 +52,7 @@ public class ListDepartmentsEndpoint : ICarterModule
 
             return Results.Ok(response);
         })
+        .RequireAuthorization()
         .WithTags("Departments")
         .WithName("ListDepartments")
         .WithDescription("Get list of departments")

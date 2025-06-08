@@ -143,6 +143,7 @@ public class UpdateHospitalizationEndpoint : ICarterModule
 
             return Results.Ok(result);
         })
+        .RequireAuthorization()
         .WithTags("Hospitalizations")
         .WithName("UpdateHospitalization")
         .WithDescription("Update an existing hospitalization")

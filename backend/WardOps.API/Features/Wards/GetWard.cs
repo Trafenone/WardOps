@@ -63,6 +63,7 @@ public class GetWardEndpoint : ICarterModule
 
             return Results.Ok(response);
         })
+        .RequireAuthorization()
         .WithTags("Wards")
         .WithName("GetWard")
         .WithDescription("Get details of a specific ward by ID")

@@ -1,6 +1,7 @@
 using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using WardOps.API.Common;
 using WardOps.API.Entities;
 
 namespace WardOps.API.Features.Auth;
@@ -57,12 +58,12 @@ public class AssignAdminRoleEndpoint : ICarterModule
 
             return Results.BadRequest(new { message = "Failed to assign Admin role" });
         })
+        .RequireAuthorization(AuthorizationPolicies.AdminPolicy)
         .WithTags("Authentication")
         .WithName("AssignAdminRole")
         .WithDescription("Assigns the Admin role to a user (requires admin privileges)")
         .Produces(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status400BadRequest)
-        .Produces(StatusCodes.Status404NotFound)
-        .RequireAuthorization("AdminOnly");
+        .Produces(StatusCodes.Status404NotFound);
     }
 }

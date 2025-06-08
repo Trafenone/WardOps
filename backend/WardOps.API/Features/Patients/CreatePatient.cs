@@ -104,6 +104,7 @@ public class CreatePatientEndpoint : ICarterModule
 
             return Results.Created($"/api/patients/{result.Id}", result);
         })
+        .RequireAuthorization()
         .WithTags("Patients")
         .WithName("CreatePatient")
         .WithDescription("Creates a new patient")

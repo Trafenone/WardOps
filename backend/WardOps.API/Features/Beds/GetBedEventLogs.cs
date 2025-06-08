@@ -72,6 +72,7 @@ public class GetBedEventLogsEndpoint : ICarterModule
 
             return Results.Ok(response);
         })
+        .RequireAuthorization()
         .WithTags("Beds")
         .WithName("GetBedEventLogs")
         .WithDescription("Get event logs for a specific bed")

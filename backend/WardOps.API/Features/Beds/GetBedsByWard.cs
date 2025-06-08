@@ -64,6 +64,7 @@ public class GetBedsByWardEndpoint : ICarterModule
 
             return Results.Ok(response);
         })
+        .RequireAuthorization()
         .WithTags("Beds")
         .WithName("GetBedsByWard")
         .WithDescription("Get list of beds for a specific ward")

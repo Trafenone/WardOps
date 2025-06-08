@@ -68,6 +68,7 @@ public class GetActiveHospitalizationsEndpoint : ICarterModule
 
             return Results.Ok(response);
         })
+        .RequireAuthorization()
         .WithTags("Hospitalizations")
         .WithName("GetActiveHospitalizations")
         .WithDescription("Get all active hospitalizations")

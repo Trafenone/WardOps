@@ -2,6 +2,7 @@
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using WardOps.API.Common;
 using WardOps.API.Contracts.Departments;
 using WardOps.API.Database;
 using WardOps.API.Entities;
@@ -82,10 +83,11 @@ public class CreateDepartmentEndpoint : ICarterModule
 
             return Results.Created($"/api/departments/{result.Id}", result);
         })
+        .RequireAuthorization(AuthorizationPolicies.AdminPolicy)
         .WithTags("Departments")
         .WithName("CreateDepartment")
         .WithDescription("Creates a new department")
-        .Produces<Guid>(StatusCodes.Status201Created)
+        .Produces<DepartmentResponse>(StatusCodes.Status201Created)
         .Produces(StatusCodes.Status400BadRequest)
         .Produces(StatusCodes.Status500InternalServerError);
     }

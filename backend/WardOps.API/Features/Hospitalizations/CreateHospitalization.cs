@@ -116,6 +116,7 @@ public class CreateHospitalizationEndpoint : ICarterModule
 
             return Results.Created($"/api/hospitalizations/{result.Id}", result);
         })
+        .RequireAuthorization()
         .WithTags("Hospitalizations")
         .WithName("CreateHospitalization")
         .WithDescription("Create a new hospitalization")

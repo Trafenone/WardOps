@@ -68,6 +68,7 @@ public class GetWardsByWardTypeEndpoint : ICarterModule
 
             return Results.Ok(response);
         })
+        .RequireAuthorization()
         .WithTags("Wards")
         .WithName("GetWardsByWardType")
         .WithDescription("Get list of wards for a specific ward type")

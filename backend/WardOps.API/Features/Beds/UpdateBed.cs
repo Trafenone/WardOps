@@ -3,6 +3,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WardOps.API.Common;
 using WardOps.API.Contracts.Beds;
 using WardOps.API.Database;
 using WardOps.API.Entities;
@@ -108,6 +109,7 @@ public class UpdateBedEndpoint : ICarterModule
 
             return Results.Ok(result);
         })
+        .RequireAuthorization(AuthorizationPolicies.AdminPolicy)
         .WithTags("Beds")
         .WithName("UpdateBed")
         .WithDescription("Updates an existing bed")

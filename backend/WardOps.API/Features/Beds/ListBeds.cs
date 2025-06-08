@@ -55,6 +55,7 @@ public class ListBedsEndpoint : ICarterModule
 
             return Results.Ok(response);
         })
+        .RequireAuthorization()
         .WithTags("Beds")
         .WithName("ListBeds")
         .WithDescription("Get list of all beds")

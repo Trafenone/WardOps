@@ -58,6 +58,7 @@ public class DeletePatientEndpoint : ICarterModule
 
             return Results.NoContent();
         })
+        .RequireAuthorization()
         .WithTags("Patients")
         .WithName("DeletePatient")
         .WithDescription("Deletes a specific patient")

@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WardOps.API.Common;
 using WardOps.API.Database;
 
 namespace WardOps.API.Features.Departments;
@@ -50,6 +51,7 @@ public class DeleteDepartmentEndpoint : ICarterModule
 
             return Results.NoContent();
         })
+        .RequireAuthorization(AuthorizationPolicies.AdminPolicy)
         .WithTags("Departments")
         .WithName("DeleteDepartment")
         .WithDescription("Delete an existing department")

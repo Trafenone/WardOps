@@ -69,6 +69,7 @@ public class GetHospitalizationEndpoint : ICarterModule
 
             return Results.Ok(response);
         })
+        .RequireAuthorization()
         .WithTags("Hospitalizations")
         .WithName("GetHospitalization")
         .WithDescription("Get a specific hospitalization by ID")

@@ -2,11 +2,20 @@ using Carter;
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using WardOps.API.Database;
 using WardOps.API.Entities;
 using WardOps.API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((context, configuration) =>
+{
+    configuration
+        .WriteTo.Console()
+        .MinimumLevel.Information()
+        .Enrich.FromLogContext();
+});
 
 builder.Services.AddEndpointsApiExplorer();
 
@@ -39,6 +48,8 @@ builder.Services.AddValidatorsFromAssembly(assembly);
 
 var app = builder.Build();
 
+app.UseSerilogRequestLogging();
+
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 if (app.Environment.IsDevelopment())
@@ -54,6 +65,8 @@ app.MapCarter();
 
 app.UseHttpsRedirection();
 
+Log.Information("Starting WardOps API");
 await DbInitializer.SeedData(app.Services);
+Log.Information("Database seeded");
 
 app.Run();

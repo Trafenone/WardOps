@@ -17,7 +17,8 @@ public static class ServiceExtensions
 
         services.AddAuthorization(options =>
         {
-            options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+            options.AddPolicy(AuthorizationPolicies.AdminPolicy, policy => policy.RequireRole(Roles.Admin));
+            options.AddPolicy(AuthorizationPolicies.StaffPolicy, policy => policy.RequireRole(Roles.Staff));
         });
 
         services.AddAuthentication(options =>

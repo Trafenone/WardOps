@@ -59,6 +59,7 @@ public class DeleteHospitalizationEndpoint : ICarterModule
 
             return Results.NoContent();
         })
+        .RequireAuthorization()
         .WithTags("Hospitalizations")
         .WithName("DeleteHospitalization")
         .WithDescription("Delete a hospitalization")

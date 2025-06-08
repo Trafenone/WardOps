@@ -55,6 +55,7 @@ public class GetDepartmentEndpoint : ICarterModule
 
             return Results.Ok(response);
         })
+        .RequireAuthorization()
         .WithTags("Departments")
         .WithName("GetDepartment")
         .WithDescription("Get details of a specific department by ID")

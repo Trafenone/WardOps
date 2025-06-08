@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using WardOps.API.Common;
 using WardOps.API.Entities;
 
 namespace WardOps.API.Database;
@@ -19,7 +20,7 @@ public static class DbInitializer
 
     private static async Task EnsureRolesCreatedAsync(RoleManager<IdentityRole> roleManager, ILogger logger)
     {
-        string[] roleNames = { "Admin", "Staff" };
+        string[] roleNames = { Roles.Admin, Roles.Staff };
 
         foreach (var roleName in roleNames)
         {
@@ -57,7 +58,7 @@ public static class DbInitializer
             if (result.Succeeded)
             {
                 logger.LogInformation("Admin user created successfully");
-                await userManager.AddToRoleAsync(admin, "Admin");
+                await userManager.AddToRoleAsync(admin, Roles.Admin);
             }
             else
             {

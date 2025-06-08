@@ -3,6 +3,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WardOps.API.Common;
 using WardOps.API.Contracts.Departments;
 using WardOps.API.Database;
 
@@ -84,12 +85,13 @@ public class UpdateDepartmentEndpoint : ICarterModule
 
             var result = await sender.Send(command);
 
-            return Results.NoContent();
+            return Results.Ok(result);
         })
+        .RequireAuthorization(AuthorizationPolicies.AdminPolicy)
         .WithTags("Departments")
         .WithName("UpdateDepartment")
         .WithDescription("Updates an existing department")
-        .Produces(StatusCodes.Status204NoContent)
+        .Produces<DepartmentResponse>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status400BadRequest)
         .Produces(StatusCodes.Status500InternalServerError);
     }

@@ -3,6 +3,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WardOps.API.Common;
 using WardOps.API.Contracts.Wards;
 using WardOps.API.Database;
 using WardOps.API.Entities.Enums;
@@ -109,12 +110,13 @@ public class UpdateWardEndpoint : ICarterModule
 
             var result = await sender.Send(command);
 
-            return Results.NoContent();
+            return Results.Ok(result);
         })
+        .RequireAuthorization(AuthorizationPolicies.AdminPolicy)
         .WithTags("Wards")
         .WithName("UpdateWard")
         .WithDescription("Updates an existing ward")
-        .Produces(StatusCodes.Status204NoContent)
+        .Produces<WardResponse>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status400BadRequest)
         .Produces(StatusCodes.Status404NotFound)
         .Produces(StatusCodes.Status500InternalServerError);

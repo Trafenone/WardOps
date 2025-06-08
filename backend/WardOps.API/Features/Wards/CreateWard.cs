@@ -2,6 +2,7 @@ using Carter;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using WardOps.API.Common;
 using WardOps.API.Contracts.Wards;
 using WardOps.API.Database;
 using WardOps.API.Entities;
@@ -107,6 +108,7 @@ public class CreateWardEndpoint : ICarterModule
 
             return Results.Created($"/api/wards/{result.Id}", result);
         })
+        .RequireAuthorization(AuthorizationPolicies.AdminPolicy)
         .WithTags("Wards")
         .WithName("CreateWard")
         .WithDescription("Creates a new ward")

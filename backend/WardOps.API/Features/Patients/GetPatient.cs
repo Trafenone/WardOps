@@ -60,6 +60,7 @@ public class GetPatientEndpoint : ICarterModule
 
             return Results.Ok(response);
         })
+        .RequireAuthorization()
         .WithTags("Patients")
         .WithName("GetPatient")
         .WithDescription("Get a specific patient by ID")

@@ -59,6 +59,7 @@ public class ListWardsEndpoint : ICarterModule
 
             return Results.Ok(response);
         })
+        .RequireAuthorization()
         .WithTags("Wards")
         .WithName("ListWards")
         .WithDescription("Get list of wards")

@@ -2,6 +2,7 @@ using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WardOps.API.Common;
 using WardOps.API.Database;
 
 namespace WardOps.API.Features.Wards;
@@ -58,6 +59,7 @@ public class DeleteWardEndpoint : ICarterModule
 
             return Results.NoContent();
         })
+        .RequireAuthorization(AuthorizationPolicies.AdminPolicy)
         .WithTags("Wards")
         .WithName("DeleteWard")
         .WithDescription("Delete an existing ward")

@@ -2,6 +2,7 @@ using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WardOps.API.Common;
 using WardOps.API.Database;
 using WardOps.API.Entities.Enums;
 
@@ -59,6 +60,7 @@ public class DeleteBedEndpoint : ICarterModule
 
             return Results.NoContent();
         })
+        .RequireAuthorization(AuthorizationPolicies.AdminPolicy)
         .WithTags("Beds")
         .WithName("DeleteBed")
         .WithDescription("Deletes a bed")

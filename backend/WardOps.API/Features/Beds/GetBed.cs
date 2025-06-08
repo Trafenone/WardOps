@@ -59,6 +59,7 @@ public class GetBedEndpoint : ICarterModule
 
             return Results.Ok(response);
         })
+        .RequireAuthorization()
         .WithTags("Beds")
         .WithName("GetBed")
         .WithDescription("Get details of a specific bed by ID")

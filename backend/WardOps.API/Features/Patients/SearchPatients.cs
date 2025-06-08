@@ -81,6 +81,7 @@ public class SearchPatientsEndpoint : ICarterModule
 
             return Results.Ok(response);
         })
+        .RequireAuthorization()
         .WithTags("Patients")
         .WithName("SearchPatients")
         .WithDescription("Search for patients by name, medical card number, or isolation status")

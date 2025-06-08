@@ -98,6 +98,7 @@ public class DischargePatientEndpoint : ICarterModule
 
             return Results.Ok(result);
         })
+        .RequireAuthorization()
         .WithTags("Hospitalizations")
         .WithName("DischargePatient")
         .WithDescription("Discharge a patient from their current hospitalization")

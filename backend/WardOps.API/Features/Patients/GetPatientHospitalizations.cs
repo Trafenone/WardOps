@@ -75,6 +75,7 @@ public class GetPatientHospitalizationsEndpoint : ICarterModule
 
             return Results.Ok(response);
         })
+        .RequireAuthorization()
         .WithTags("Patients")
         .WithName("GetPatientHospitalizations")
         .WithDescription("Get hospitalization history for a specific patient")

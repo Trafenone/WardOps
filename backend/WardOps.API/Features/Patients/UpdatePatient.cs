@@ -110,6 +110,7 @@ public class UpdatePatientEndpoint : ICarterModule
 
             return Results.Ok(result);
         })
+        .RequireAuthorization()
         .WithTags("Patients")
         .WithName("UpdatePatient")
         .WithDescription("Updates an existing patient")

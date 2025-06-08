@@ -6,7 +6,7 @@ using WardOps.API.Database;
 
 namespace WardOps.API.Features.Hospitalizations;
 
-public class GetHospitalizations
+public class ListHospitalizations
 {
     public class Query : IRequest<ListHospitalizationsResponse>
     {
@@ -54,13 +54,13 @@ public class GetHospitalizations
     }
 }
 
-public class GetHospitalizationsEndpoint : ICarterModule
+public class ListHospitalizationsEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet("api/hospitalizations", async (IMediator mediator) =>
         {
-            var query = new GetHospitalizations.Query();
+            var query = new ListHospitalizations.Query();
 
             var response = await mediator.Send(query);
 
@@ -68,7 +68,7 @@ public class GetHospitalizationsEndpoint : ICarterModule
         })
         .WithTags("Hospitalizations")
         .WithName("GetHospitalizations")
-        .WithDescription("Get all hospitalizations")
+        .WithDescription("Get list of hospitalizations")
         .Produces<ListHospitalizationsResponse>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status500InternalServerError);
     }

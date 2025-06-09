@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using WardOps.API.Common;
+using WardOps.API.Common.Configs;
 using WardOps.API.Services;
 
 namespace WardOps.API.Extensions;

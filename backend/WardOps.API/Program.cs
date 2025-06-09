@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Resend;
 using Serilog;
-using WardOps.API.Common;
+using WardOps.API.Common.Configs;
 using WardOps.API.Database;
 using WardOps.API.Entities;
 using WardOps.API.Extensions;

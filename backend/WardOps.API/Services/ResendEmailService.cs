@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Options;
 using Resend;
-using WardOps.API.Common;
+using WardOps.API.Common.Configs;
 
 namespace WardOps.API.Services;
 

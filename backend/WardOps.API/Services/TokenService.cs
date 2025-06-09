@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using WardOps.API.Common;
+using WardOps.API.Common.Configs;
 using WardOps.API.Entities;
 
 namespace WardOps.API.Services;

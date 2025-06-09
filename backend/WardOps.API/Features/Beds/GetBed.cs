@@ -22,7 +22,7 @@ public static class GetBed
         {
             _dbContext = dbContext;
         }
-
+        
         public async Task<BedResponse> Handle(Query request, CancellationToken cancellationToken)
         {
             var bed = await _dbContext.Beds

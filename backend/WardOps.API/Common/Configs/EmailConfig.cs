@@ -1,4 +1,4 @@
-namespace WardOps.API.Common;
+namespace WardOps.API.Common.Configs;
 
 public class EmailConfig
 {

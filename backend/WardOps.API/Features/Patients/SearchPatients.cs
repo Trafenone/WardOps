@@ -30,11 +30,11 @@ public class SearchPatients
 
             if (!string.IsNullOrWhiteSpace(request.SearchTerm))
             {
-                var searchTerm = request.SearchTerm.ToLower();
+                var searchTerm = $"%{request.SearchTerm}%";
                 query = query.Where(p =>
-                    p.FirstName.ToLower().Contains(searchTerm) ||
-                    p.LastName.ToLower().Contains(searchTerm) ||
-                    (p.MedicalCardNumber != null && p.MedicalCardNumber.ToLower().Contains(searchTerm))
+                    EF.Functions.Like(p.FirstName, searchTerm) ||
+                    EF.Functions.Like(p.LastName, searchTerm) ||
+                    (p.MedicalCardNumber != null && EF.Functions.Like(p.MedicalCardNumber, searchTerm))
                 );
             }
 

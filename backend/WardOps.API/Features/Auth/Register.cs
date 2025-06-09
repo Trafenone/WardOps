@@ -2,6 +2,7 @@ using Carter;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using WardOps.API.Common;
 using WardOps.API.Contracts.Auth;
 using WardOps.API.Entities;
 using WardOps.API.Services;
@@ -23,11 +24,19 @@ public static class Register
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ITokenService _tokenService;
+        private readonly IEmailService _emailService;
+        private readonly ILogger<Handler> _logger;
 
-        public Handler(UserManager<ApplicationUser> userManager, ITokenService tokenService)
+        public Handler(
+            UserManager<ApplicationUser> userManager,
+            ITokenService tokenService,
+            IEmailService emailService,
+            ILogger<Handler> logger)
         {
             _userManager = userManager;
             _tokenService = tokenService;
+            _emailService = emailService;
+            _logger = logger;
         }
 
         public async Task<AuthResponse> Handle(Command request, CancellationToken cancellationToken)
@@ -54,7 +63,30 @@ public static class Register
                 throw new InvalidOperationException("User registration failed: " + string.Join(", ", result.Errors.Select(e => e.Description)));
             }
 
-            await _userManager.AddToRoleAsync(user, "Staff");
+            await _userManager.AddToRoleAsync(user, Roles.Staff);
+
+            try
+            {
+                var emailSent = await _emailService.SendWelcomeEmailAsync(
+                    user.Email,
+                    user.FirstName,
+                    user.LastName,
+                    user.Position
+                );
+
+                if (!emailSent)
+                {
+                    _logger.LogWarning("Failed to send welcome email to {Email}", user.Email);
+                }
+                else
+                {
+                    _logger.LogInformation("Welcome email sent to {Email}", user.Email);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error sending welcome email to {Email}", user.Email);
+            }
 
             var token = await _tokenService.GenerateTokenAsync(user);
             var roles = await _userManager.GetRolesAsync(user);
@@ -62,6 +94,7 @@ public static class Register
             return new AuthResponse
             {
                 Token = token,
+                Id = user.Id,
                 Email = user.Email,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
@@ -97,9 +130,10 @@ public class RegisterEndpoint : ICarterModule
 
             return Results.Created($"/api/auth/users/{result.Email}", result);
         })
+        .RequireAuthorization(AuthorizationPolicies.AdminPolicy)
         .WithTags("Authentication")
         .WithName("Register")
-        .WithDescription("Registers a new user and returns a JWT token")
+        .WithDescription("Registers a new user by admin and sends welcome email")
         .Produces<AuthResponse>(StatusCodes.Status201Created)
         .Produces(StatusCodes.Status400BadRequest)
         .Produces(StatusCodes.Status500InternalServerError);

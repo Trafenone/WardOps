@@ -47,6 +47,7 @@ public static class Login
             return new AuthResponse
             {
                 Token = token,
+                Id = user.Id,
                 Email = user.Email,
                 FirstName = user.FirstName,
                 LastName = user.LastName,

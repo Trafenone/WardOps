@@ -11,6 +11,15 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
+  ...compat.extends("prettier"),
+  ...compat.plugins("prettier"),
+  {
+    rules: {
+      "prettier/prettier": "error",
+      "arrow-body-style": ["error", "as-needed"],
+      "prefer-arrow-callback": "error",
+    },
+  },
 ];
 
 export default eslintConfig;

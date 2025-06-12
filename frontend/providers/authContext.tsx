@@ -7,8 +7,8 @@ import {
   useEffect,
   ReactNode,
 } from "react";
-import { User } from "./types";
-import authService from "./authService";
+import { User } from "../lib/types";
+import authService from "../services/authService";
 import { useRouter } from "next/navigation";
 
 interface AuthContextType {
@@ -70,7 +70,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         position: authResponse.position,
         roles: authResponse.roles,
       });
-      router.replace("/dashboard");
+      router.replace("/");
     } catch (error) {
       console.error("Login failed:", error);
       throw error;

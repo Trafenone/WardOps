@@ -1,4 +1,4 @@
-import { AuthResponse, LoginRequest, User } from "./types";
+import { AuthResponse, LoginRequest, User } from "../lib/types";
 import Cookies from "js-cookie";
 import axios from "axios";
 

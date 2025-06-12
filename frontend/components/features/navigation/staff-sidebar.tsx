@@ -20,7 +20,7 @@ const navigationItems = [
   {
     title: "Основне",
     items: [
-      { title: "Дашборд", url: "/", icon: LayoutDashboard },
+      { title: "Дашборд", url: "/dashboard", icon: LayoutDashboard },
       { title: "Пацієнти", url: "/patients", icon: Users },
       { title: "Ліжка", url: "/beds", icon: Bed },
     ],

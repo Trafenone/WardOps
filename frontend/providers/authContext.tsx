@@ -70,7 +70,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         position: authResponse.position,
         roles: authResponse.roles,
       });
-      router.replace("/");
+      router.replace("/dashboard");
     } catch (error) {
       console.error("Login failed:", error);
       throw error;

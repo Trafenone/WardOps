@@ -26,16 +26,20 @@ const navigationItems = [
   {
     title: "Головна",
     items: [
-      { title: "Дашборд", url: "/", icon: LayoutDashboard },
-      { title: "Аналітика", url: "/analytics", icon: BarChart3 },
+      { title: "Дашборд", url: "/dashboard", icon: LayoutDashboard },
+      { title: "Аналітика", url: "/admin/analytics", icon: BarChart3 },
     ],
   },
   {
     title: "Адміністрування",
     items: [
-      { title: "Структура лікарні", url: "/departments", icon: Building2 },
-      { title: "Управління ліжками", url: "/beds", icon: Bed },
-      { title: "Управління персоналом", url: "/staff", icon: UserCheck },
+      {
+        title: "Структура лікарні",
+        url: "/admin/departments",
+        icon: Building2,
+      },
+      { title: "Управління ліжками", url: "/admin/beds", icon: Bed },
+      { title: "Управління персоналом", url: "/admin/staff", icon: UserCheck },
     ],
   },
 ];

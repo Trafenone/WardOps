@@ -35,7 +35,7 @@ const navigationItems = [
     items: [
       {
         title: "Структура лікарні",
-        url: "/admin/departments",
+        url: "/admin/hospital-structure",
         icon: Building2,
       },
       { title: "Управління ліжками", url: "/admin/beds", icon: Bed },

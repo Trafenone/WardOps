@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://localhost:7058";
-const TOKEN_EXPIRY_DAYS = 7;
+const TOKEN_EXPIRY_DAYS = 1;
 
 class AuthService {
   async login(credentials: LoginRequest): Promise<AuthResponse> {

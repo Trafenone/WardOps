@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using WardOps.API.Common;
 using WardOps.API.Contracts.Auth;
 using WardOps.API.Entities;
+using WardOps.API.Entities.Enums;
 using WardOps.API.Services;
 
 namespace WardOps.API.Features.Auth;
@@ -17,7 +18,7 @@ public static class Register
         public string Password { get; set; } = string.Empty;
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
-        public string Position { get; set; } = string.Empty;
+        public PositionType Position { get; set; }
     }
 
     internal sealed class Handler : IRequestHandler<Command, AuthResponse>
@@ -71,7 +72,7 @@ public static class Register
                     user.Email,
                     user.FirstName,
                     user.LastName,
-                    user.Position
+                    user.Position.ToString()
                 );
 
                 if (!emailSent)
@@ -99,7 +100,7 @@ public static class Register
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Position = user.Position,
-                Roles = roles.ToList()
+                Role = roles.FirstOrDefault() ?? ""
             };
         }
     }

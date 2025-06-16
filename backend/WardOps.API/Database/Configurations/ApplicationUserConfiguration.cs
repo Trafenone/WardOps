@@ -18,7 +18,13 @@ public class ApplicationUserConfiguration : IEntityTypeConfiguration<Application
 
         builder.Property(u => u.Position)
             .IsRequired()
+            .HasConversion<string>()
             .HasMaxLength(100);
+
+        builder.HasOne(u => u.Department)
+            .WithMany(d => d.Users)
+            .HasForeignKey(u => u.DepartmentId)
+            .OnDelete(DeleteBehavior.SetNull);
 
         builder.HasMany(u => u.BedEventLogs)
             .WithOne(bel => bel.User)

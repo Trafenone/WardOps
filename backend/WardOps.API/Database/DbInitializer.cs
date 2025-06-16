@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WardOps.API.Common;
 using WardOps.API.Entities;
+using WardOps.API.Entities.Enums;
 
 namespace WardOps.API.Database;
 
@@ -52,7 +53,7 @@ public static class DbInitializer
                 EmailConfirmed = true,
                 FirstName = "System",
                 LastName = "Administrator",
-                Position = "Administrator"
+                Position = PositionType.Administrator
             };
 
             var result = await userManager.CreateAsync(admin, "Admin123!");

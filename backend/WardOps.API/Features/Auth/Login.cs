@@ -52,7 +52,7 @@ public static class Login
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Position = user.Position,
-                Roles = roles.ToList()
+                Role = roles.FirstOrDefault() ?? ""
             };
         }
     }

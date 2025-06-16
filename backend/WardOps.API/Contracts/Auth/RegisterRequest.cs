@@ -1,4 +1,5 @@
 using FluentValidation;
+using WardOps.API.Entities.Enums;
 
 namespace WardOps.API.Contracts.Auth;
 
@@ -9,7 +10,7 @@ public class RegisterRequest
     public string ConfirmPassword { get; set; } = string.Empty;
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
-    public string Position { get; set; } = string.Empty;
+    public PositionType Position { get; set; }
 }
 
 public class RegisterRequestValidator : AbstractValidator<RegisterRequest>
@@ -36,7 +37,6 @@ public class RegisterRequestValidator : AbstractValidator<RegisterRequest>
             .MaximumLength(100).WithMessage("Last name cannot exceed 100 characters.");
 
         RuleFor(x => x.Position)
-            .NotEmpty().WithMessage("Position is required.")
-            .MaximumLength(100).WithMessage("Position cannot exceed 100 characters.");
+             .IsInEnum().WithMessage("Invalid position type");
     }
 }

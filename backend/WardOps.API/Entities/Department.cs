@@ -7,5 +7,6 @@ public class Department
     public string? Building { get; set; }
     public int? FloorNumber { get; set; }
     public string? Description { get; set; }
+    public ICollection<ApplicationUser> Users { get; set; } = new List<ApplicationUser>();
     public ICollection<Ward> Wards { get; set; } = new List<Ward>();
 }

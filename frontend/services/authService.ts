@@ -1,6 +1,7 @@
-import { AuthResponse, LoginRequest, User } from "../lib/types";
+import { User } from "@/types/models";
 import Cookies from "js-cookie";
 import axios from "axios";
+import { AuthResponse, LoginRequest } from "@/types/dtos";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://localhost:7058";
 const TOKEN_EXPIRY_DAYS = 1;

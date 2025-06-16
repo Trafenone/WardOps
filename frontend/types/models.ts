@@ -1,4 +1,17 @@
-import { BedStatus, WardGenderPolicy } from "./enums";
+import { BedStatus, PositionType, WardGenderPolicy } from "./enums";
+
+export interface User {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  role: string;
+  position: PositionType;
+  departmentId?: string;
+  departmentName?: string;
+  lastLogin?: Date;
+  isActive: boolean;
+}
 
 export interface Department {
   id: string;

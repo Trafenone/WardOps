@@ -7,7 +7,7 @@ import {
   useEffect,
   ReactNode,
 } from "react";
-import { User } from "../lib/types";
+import { User } from "@/types/models";
 import authService from "../services/authService";
 import { useRouter } from "next/navigation";
 
@@ -68,7 +68,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
         firstName: authResponse.firstName,
         lastName: authResponse.lastName,
         position: authResponse.position,
-        roles: authResponse.roles,
+        role: authResponse.role,
+        departmentId: authResponse.departmentId,
+        lastLogin: authResponse.lastLogin,
+        isActive: authResponse.isActive,
       });
       router.replace("/dashboard");
     } catch (error) {

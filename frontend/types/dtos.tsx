@@ -1,5 +1,23 @@
-import { BedStatus, WardGenderPolicy } from "./enums";
-import { Department, WardType } from "./models";
+import { BedStatus, PositionType, WardGenderPolicy } from "./enums";
+import { Department, User, WardType } from "./models";
+
+export interface AuthResponse {
+  token: string;
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  role: string;
+  position: PositionType;
+  departmentId?: string;
+  lastLogin?: Date;
+  isActive: boolean;
+}
+
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
 
 export interface CreateDepartmentRequest {
   name: string;
@@ -8,7 +26,7 @@ export interface CreateDepartmentRequest {
   description?: string;
 }
 
-export interface UpdateDepartmentRequest extends CreateDepartmentRequest {}
+export type UpdateDepartmentRequest = CreateDepartmentRequest;
 
 export interface DepartmentResponse {
   id: string;
@@ -59,7 +77,7 @@ export interface CreateWardRequest {
   notes?: string;
 }
 
-export interface UpdateWardRequest extends CreateWardRequest {}
+export type UpdateWardRequest = CreateWardRequest;
 
 export interface ListWardTypesResponse {
   wardTypes: WardType[];
@@ -89,4 +107,27 @@ export interface WardWithBeds {
   maxCapacity: number;
   notes?: string;
   beds: BedsResponse[];
+}
+
+export interface ListStaffResponse {
+  staffMembers: User[];
+}
+
+export interface CreateStaffRequest {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  position: PositionType;
+  departmentId?: string;
+  isActive: boolean;
+}
+
+export interface UpdateStaffRequest {
+  firstName: string;
+  lastName: string;
+  position: PositionType;
+  departmentId?: string;
+  isActive: boolean;
 }

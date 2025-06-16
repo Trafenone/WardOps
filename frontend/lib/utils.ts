@@ -1,6 +1,34 @@
+import { PositionType } from "@/types/enums";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
+}
+
+export function translatePositionType(positionType: PositionType): string {
+  switch (positionType) {
+    case PositionType.Doctor:
+      return "Лікар";
+    case PositionType.Nurse:
+      return "Медсестра";
+    case PositionType.HeadNurse:
+      return "Старша медсестра";
+    case PositionType.WardManager:
+      return "Завідувач палати";
+    case PositionType.Administrator:
+      return "Адміністратор";
+    case PositionType.Receptionist:
+      return "Реєстратор";
+    case PositionType.CleaningStaff:
+      return "Прибиральник";
+    case PositionType.MaintenanceStaff:
+      return "Технічний персонал";
+    case PositionType.PatientCoordinator:
+      return "Координатор пацієнтів";
+    case PositionType.DepartmentHead:
+      return "Завідувач відділення";
+    default:
+      return "Невідома посада";
+  }
 }

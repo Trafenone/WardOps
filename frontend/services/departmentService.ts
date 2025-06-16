@@ -8,19 +8,10 @@ import {
 } from "@/types/dtos";
 
 export class DepartmentsService {
-  static async getAllDepartments(
-    includeWards?: boolean,
-    includeBeds?: boolean,
-  ): Promise<Department[]> {
+  static async getAllDepartments(): Promise<Department[]> {
     try {
       const response = await axios.get<ListDepartments>(
         `${API_URL}/api/departments`,
-        {
-          params: {
-            includeWards: includeWards ? "true" : "false",
-            includeBeds: includeBeds ? "true" : "false",
-          },
-        },
       );
       return response.data.departments;
     } catch (error) {

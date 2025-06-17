@@ -32,3 +32,22 @@ export function translatePositionType(positionType: PositionType): string {
       return "Невідома посада";
   }
 }
+
+export function translateBedStatus(status: string): string {
+  switch (status) {
+    case "Available":
+      return "Вільно";
+    case "Occupied":
+      return "Зайнято";
+    case "Cleaning":
+      return "Прибирання";
+    case "Maintenance":
+      return "Ремонт";
+    case "Reserved":
+      return "Зарезервовано";
+    case "Unavailable":
+      return "Недоступно";
+    default:
+      return status; // Return original status if no translation found
+  }
+}

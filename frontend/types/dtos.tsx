@@ -1,4 +1,9 @@
-import { BedStatus, PositionType, WardGenderPolicy } from "./enums";
+import {
+  BedStatus,
+  HospitalizationStatus,
+  PositionType,
+  WardGenderPolicy,
+} from "./enums";
 import { Department, User, WardType } from "./models";
 
 export interface AuthResponse {
@@ -57,12 +62,61 @@ export interface WardResponse {
   notes?: string;
 }
 
-export interface BedsResponse {
+export interface BedResponse {
   id: string;
   wardId: string;
+  wardNumber: string;
   bedNumber: string;
+  departmentId: string;
+  departmentName: string;
   status: BedStatus;
+  patientId?: string | null;
+  patientName?: string | null;
+  notes?: string;
 }
+
+export interface ListBedsResponse {
+  beds: BedResponse[];
+}
+
+export interface CreateBedRequest {
+  bedNumber: string;
+  departmentId: string;
+  wardId: string;
+  status: BedStatus;
+  notes?: string;
+}
+
+export interface CreateHospitalizationRequest {
+  patientId: string;
+  bedId: string;
+  admissionDateTime: Date;
+  plannedDischargeDateTime?: Date;
+  admissionReason?: string;
+}
+
+export interface DischargePatientRequest {
+  dischargeReason?: string;
+  actualDischargeDateTime: Date;
+}
+
+export interface HospitalizationResponse {
+  id: string;
+  patientId: string;
+  patientFullName: string;
+  bedId: string;
+  bedNumber: string;
+  wardNumber: string;
+  departmentName: string;
+  admissionDateTime: Date;
+  plannedDischargeDateTime?: Date;
+  actualDischargeDateTime?: Date;
+  admissionReason?: string;
+  dischargeReason?: string;
+  status: HospitalizationStatus;
+}
+
+export type UpdateBedRequest = CreateBedRequest;
 
 export interface ListWardsResponse {
   wards: WardResponse[];
@@ -106,7 +160,7 @@ export interface WardWithBeds {
   genderPolicy: WardGenderPolicy;
   maxCapacity: number;
   notes?: string;
-  beds: BedsResponse[];
+  beds: BedResponse[];
 }
 
 export interface ListStaffResponse {

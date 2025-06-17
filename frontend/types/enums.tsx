@@ -21,6 +21,13 @@ export enum WardGenderPolicy {
 export enum BedStatus {
   Available = "Available",
   Occupied = "Occupied",
+  Cleaning = "Cleaning",
   Maintenance = "Maintenance",
   Reserved = "Reserved",
+  Unavailable = "Unavailable",
+}
+
+export enum HospitalizationStatus {
+  Active = "Active",
+  Discharged = "Discharged",
 }

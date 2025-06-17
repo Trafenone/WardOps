@@ -8,7 +8,7 @@ import {
   ReactNode,
 } from "react";
 import { User } from "@/types/models";
-import authService from "../services/authService";
+import authService from "@/services/authService";
 import { useRouter } from "next/navigation";
 
 interface AuthContextType {

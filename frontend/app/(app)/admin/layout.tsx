@@ -14,14 +14,14 @@ export default function AdminLayout({
   const router = useRouter();
 
   useEffect(() => {
-    if (user && !user.roles.includes("Admin")) {
+    if (user && !user.role.includes("Admin")) {
       router.replace("/dashboard");
     }
   }, [user, router]);
 
   if (!user) return null;
 
-  if (!user.roles.includes("Admin")) return <LoadingPage />;
+  if (!user.role.includes("Admin")) return <LoadingPage />;
 
   return <>{children}</>;
 }

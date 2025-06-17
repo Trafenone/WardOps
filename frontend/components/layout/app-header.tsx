@@ -3,7 +3,7 @@
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 // import { ThemeToggle } from "@/components/ui/theme-toggle";
-import { UserMenu } from "@/components/features/navigation/user-menu";
+import { UserMenu } from "@/components/navigation/user-menu";
 import { Hospital } from "lucide-react";
 
 // TODO: Uncomment when ThemeToggle is implemented

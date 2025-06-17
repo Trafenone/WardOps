@@ -38,7 +38,7 @@ const navigationItems = [
         url: "/admin/hospital-structure",
         icon: Building2,
       },
-      { title: "Управління ліжками", url: "/admin/beds", icon: Bed },
+      { title: "Управління ліжками", url: "/admin/bed-management", icon: Bed },
       { title: "Управління персоналом", url: "/admin/staff", icon: UserCheck },
     ],
   },

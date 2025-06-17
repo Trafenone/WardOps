@@ -66,7 +66,7 @@ export default function Dashboard() {
               Вітаємо, {user.firstName}!
             </h2>
             <p className="text-muted-foreground">
-              Ви увійшли як {user.position} з ролями: {user.roles.join(", ")}
+              Ви увійшли як {user.position} з ролью: {user.role}
             </p>
             <p>
               На цій сторінці ви можете бачити загальну статистику та основні
@@ -100,8 +100,8 @@ export default function Dashboard() {
                   <div className="col-span-2">{user.position}</div>
                 </div>
                 <div className="grid grid-cols-3 gap-4">
-                  <div className="font-medium">Ролі:</div>
-                  <div className="col-span-2">{user.roles.join(", ")}</div>
+                  <div className="font-medium">Роль:</div>
+                  <div className="col-span-2">{user.role}</div>
                 </div>
               </div>
             )}

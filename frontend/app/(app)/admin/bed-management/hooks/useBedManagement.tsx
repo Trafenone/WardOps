@@ -37,7 +37,7 @@ export const useBedManagement = () => {
   const [departments, setDepartments] = useState<DepartmentWithWards[]>([]);
   const [wards, setWards] = useState<WardWithBeds[]>([]);
   const [beds, setBeds] = useState<BedResponse[]>([]);
-  const [patients, setPatients] = useState<string[]>([]);
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [dialogState, setDialogState] = useState<DialogState>({
@@ -161,7 +161,9 @@ export const useBedManagement = () => {
     }
   };
 
-  const handleDeleteBed = async (id: string) => {
+  const handleDeleteBed = async (id?: string) => {
+    if (!id) return;
+
     setIsLoading(true);
     try {
       await BedService.deleteBed(id);
@@ -242,7 +244,6 @@ export const useBedManagement = () => {
     departments,
     wards,
     beds: filteredBeds,
-    patients,
     isLoading,
     dialogState,
     setDialogState,

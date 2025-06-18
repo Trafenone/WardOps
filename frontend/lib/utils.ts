@@ -1,9 +1,18 @@
 import { PositionType } from "@/types/enums";
 import { clsx, type ClassValue } from "clsx";
+import { format } from "date-fns/format";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
+}
+
+export function formatDateTime(dateTime: Date) {
+  return new Date(dateTime).toLocaleString("uk-UA");
+}
+
+export function formatDateWithTime(dateTime: Date) {
+  return format(new Date(dateTime), "dd.MM.yyyy HH:mm");
 }
 
 export function translatePositionType(positionType: PositionType): string {
@@ -48,6 +57,6 @@ export function translateBedStatus(status: string): string {
     case "Unavailable":
       return "Недоступно";
     default:
-      return status; // Return original status if no translation found
+      return status;
   }
 }

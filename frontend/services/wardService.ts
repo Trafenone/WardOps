@@ -39,7 +39,6 @@ export class WardsService {
 
   static async createWard(data: CreateWardRequest): Promise<WardResponse> {
     try {
-      console.log("Creating ward with data:", data);
       const response = await axios.post<WardResponse>(
         `${API_URL}/api/wards`,
         data,

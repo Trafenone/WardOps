@@ -1,10 +1,12 @@
 import {
   BedStatus,
+  GenderType,
   HospitalizationStatus,
+  PatientStatus,
   PositionType,
   WardGenderPolicy,
 } from "./enums";
-import { Department, User, WardType } from "./models";
+import { Department, Hospitalization, Patient, User, WardType } from "./models";
 
 export interface AuthResponse {
   token: string;
@@ -100,6 +102,10 @@ export interface DischargePatientRequest {
   actualDischargeDateTime: Date;
 }
 
+export interface ListHospitalizationsResponse {
+  hospitalizations: Hospitalization[];
+}
+
 export interface HospitalizationResponse {
   id: string;
   patientId: string;
@@ -185,3 +191,22 @@ export interface UpdateStaffRequest {
   departmentId?: string;
   isActive: boolean;
 }
+
+export interface ListPatientsResponse {
+  patients: Patient[];
+}
+
+export interface CreatePatientRequest {
+  firstName: string;
+  lastName: string;
+  dateOfBirth: Date;
+  gender: GenderType;
+  phoneNumber: string;
+  medicalCardNumber: string;
+  admissionDiagnosis: string;
+  requiresIsolation: boolean;
+  status: PatientStatus;
+  notes?: string;
+}
+
+export type UpdatePatientRequest = CreatePatientRequest;

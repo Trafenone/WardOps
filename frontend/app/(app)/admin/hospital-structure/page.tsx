@@ -134,7 +134,6 @@ export default function HospitalStructure() {
         ))}
       </div>
 
-      {/* Department Form Dialogs */}
       <DepartmentFormDialog
         isOpen={dialogState.isAddDepartmentOpen}
         isEdit={false}

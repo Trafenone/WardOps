@@ -3,7 +3,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
@@ -16,7 +15,7 @@ interface BedActionsDropdownProps {
   onEdit: (bed: BedResponse) => void;
   onAssignPatient: (bed: BedResponse) => void;
   onDischargePatient: (bed: BedResponse) => void;
-  onDelete: (bedId: string) => void;
+  onDelete: (bed: BedResponse) => void;
 }
 
 export const BedActionsDropdown: React.FC<BedActionsDropdownProps> = ({
@@ -34,7 +33,6 @@ export const BedActionsDropdown: React.FC<BedActionsDropdownProps> = ({
       </Button>
     </DropdownMenuTrigger>
     <DropdownMenuContent align="end">
-      <DropdownMenuLabel>Дії</DropdownMenuLabel>
       <DropdownMenuItem onClick={() => onEdit(bed)}>
         <Edit className="mr-2 h-4 w-4" />
         Редагувати
@@ -51,14 +49,19 @@ export const BedActionsDropdown: React.FC<BedActionsDropdownProps> = ({
           Виписати пацієнта
         </DropdownMenuItem>
       )}
-      <DropdownMenuSeparator />
-      <DropdownMenuItem
-        onClick={() => onDelete(bed.id)}
-        className="text-red-600"
-      >
-        <Trash2 className="mr-2 h-4 w-4" />
-        Видалити
-      </DropdownMenuItem>
+
+      {bed.status === BedStatus.Available && (
+        <>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            onClick={() => onDelete(bed)}
+            className="text-red-600"
+          >
+            <Trash2 className="mr-2 h-4 w-4" />
+            Видалити
+          </DropdownMenuItem>
+        </>
+      )}
     </DropdownMenuContent>
   </DropdownMenu>
 );

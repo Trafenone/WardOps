@@ -1,4 +1,11 @@
-import { BedStatus, PositionType, WardGenderPolicy } from "./enums";
+import {
+  BedStatus,
+  GenderType,
+  HospitalizationStatus,
+  PatientStatus,
+  PositionType,
+  WardGenderPolicy,
+} from "./enums";
 
 export interface User {
   id: string;
@@ -45,4 +52,36 @@ export interface Bed {
   bedNumber: string;
   status: BedStatus;
   notes?: string;
+}
+
+export interface Patient {
+  id: string;
+  firstName: string;
+  lastName: string;
+  fullName: string;
+  dateOfBirth: Date;
+  gender: GenderType;
+  phoneNumber: string;
+  medicalCardNumber: string;
+  admissionDiagnosis: string;
+  requiresIsolation: boolean;
+  status: PatientStatus;
+  notes?: string;
+  hospitalizations?: Hospitalization[];
+}
+
+export interface Hospitalization {
+  id: string;
+  patientId: string;
+  patientFullName: string;
+  bedId: string;
+  bedNumber: string;
+  wardNumber: string;
+  departmentName: string;
+  admissionDateTime: Date;
+  plannedDischargeDateTime?: Date;
+  actualDischargeDateTime?: Date;
+  admissionReason: string;
+  dischargeReason?: string;
+  status: HospitalizationStatus;
 }

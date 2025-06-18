@@ -25,13 +25,14 @@ import { DischargePatientForm } from "./components/DischargePatientForm";
 import { BedActionsDropdown } from "./components/BedActionsDropdown";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useEffect } from "react";
+import { ConfirmDeleteDialog } from "./components/ConfirmDeleteDialog";
+import { usePatient } from "../../patients/hooks/usePatient";
 
 export default function BedManagement() {
   const {
     departments,
     wards,
     beds,
-    // patients, // Assuming patients are fetched or available in the hook
     isLoading,
     dialogState,
     setDialogState,
@@ -51,12 +52,7 @@ export default function BedManagement() {
     handleDischargePatient,
   } = useBedManagement();
 
-  const staticPatients = [
-    { id: "p1", name: "Іванов І.І." },
-    { id: "p2", name: "Петров П.П." },
-    { id: "p3", name: "Сидоров С.С." },
-    { id: "p4", name: "Коваленко К.К." },
-  ];
+  const { patients } = usePatient();
 
   const openAddBedDialog = () => {
     bedForm.reset({
@@ -111,6 +107,14 @@ export default function BedManagement() {
     setDialogState((prev) => ({
       ...prev,
       isDischargePatientOpen: true,
+      selectedBed: bed,
+    }));
+  };
+
+  const openDeleteBedDialog = (bed: BedResponse) => {
+    setDialogState((prev) => ({
+      ...prev,
+      isConfirmDeleteOpen: true,
       selectedBed: bed,
     }));
   };
@@ -265,7 +269,7 @@ export default function BedManagement() {
                         onEdit={openEditBedDialog}
                         onAssignPatient={openAssignPatientDialog}
                         onDischargePatient={openDischargePatientDialog}
-                        onDelete={handleDeleteBed}
+                        onDelete={openDeleteBedDialog}
                       />
                     </TableCell>
                   </TableRow>
@@ -310,7 +314,7 @@ export default function BedManagement() {
             setDialogState((prev) => ({ ...prev, isAssignPatientOpen: false }))
           }
           selectedBed={dialogState.selectedBed}
-          patients={staticPatients}
+          patients={patients}
         />
       </Dialog>
 
@@ -333,6 +337,22 @@ export default function BedManagement() {
             }))
           }
           selectedBed={dialogState.selectedBed}
+        />
+      </Dialog>
+
+      <Dialog
+        open={dialogState.isConfirmDeleteOpen}
+        onOpenChange={(isOpen) =>
+          setDialogState((prev) => ({ ...prev, isConfirmDeleteOpen: isOpen }))
+        }
+      >
+        <ConfirmDeleteDialog
+          isOpen={dialogState.isConfirmDeleteOpen}
+          onClose={() =>
+            setDialogState((prev) => ({ ...prev, isConfirmDeleteOpen: false }))
+          }
+          onConfirm={() => handleDeleteBed(dialogState.selectedBed?.id)}
+          isLoading={isLoading}
         />
       </Dialog>
 

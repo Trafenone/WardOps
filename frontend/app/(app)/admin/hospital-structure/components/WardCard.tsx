@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Bed, Edit2, Trash2, Users } from "lucide-react";
 import { Ward } from "@/types/models";
-import { WardGenderPolicy } from "@/types/enums";
+import { BedStatus, WardGenderPolicy } from "@/types/enums";
 import { WardType } from "@/types/models";
 
 interface WardCardProps {
@@ -67,7 +67,9 @@ export const WardCard: React.FC<WardCardProps> = ({
           </div>
           <div className="flex items-center gap-1">
             <Users className="h-3 w-3" />
-            Зайнято: {ward.beds.length}/{ward.maxCapacity}
+            Зайнято:{" "}
+            {ward.beds.filter((b) => b.status === BedStatus.Occupied).length}/
+            {ward.maxCapacity}
           </div>
         </div>
         {ward.notes && (

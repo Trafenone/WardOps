@@ -25,6 +25,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { CreateHospitalizationFormValues } from "@/schemas/hospitalization-schema";
 import { BedResponse } from "@/types/dtos";
+import { Patient } from "@/types/models";
 import { UseFormReturn } from "react-hook-form";
 
 interface AssignPatientFormProps {
@@ -32,7 +33,7 @@ interface AssignPatientFormProps {
   onSubmit: (data: CreateHospitalizationFormValues) => void;
   onCancel: () => void;
   selectedBed: BedResponse | null;
-  patients: { id: string; name: string }[]; // Assuming patients prop is passed
+  patients: Patient[];
 }
 
 export const AssignPatientForm: React.FC<AssignPatientFormProps> = ({
@@ -70,7 +71,7 @@ export const AssignPatientForm: React.FC<AssignPatientFormProps> = ({
                   <SelectContent>
                     {patients.map((patient) => (
                       <SelectItem key={patient.id} value={patient.id}>
-                        {patient.name}
+                        {patient.firstName + " " + patient.lastName}
                       </SelectItem>
                     ))}
                   </SelectContent>

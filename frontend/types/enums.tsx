@@ -31,3 +31,15 @@ export enum HospitalizationStatus {
   Active = "Active",
   Discharged = "Discharged",
 }
+
+export enum PatientStatus {
+  Registered = "Registered",
+  Hospitalized = "Hospitalized",
+  Discharged = "Discharged",
+  Inactive = "Inactive",
+}
+
+export enum GenderType {
+  Male = "Male",
+  Female = "Female",
+}

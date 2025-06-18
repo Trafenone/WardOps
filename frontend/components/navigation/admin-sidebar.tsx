@@ -20,6 +20,7 @@ import {
   UserCheck,
   Building2,
   BarChart3,
+  Shield,
 } from "lucide-react";
 
 const navigationItems = [
@@ -28,6 +29,7 @@ const navigationItems = [
     items: [
       { title: "Дашборд", url: "/dashboard", icon: LayoutDashboard },
       { title: "Аналітика", url: "/admin/analytics", icon: BarChart3 },
+      { title: "Пацієнти", url: "/patients", icon: UserCheck },
     ],
   },
   {
@@ -39,7 +41,7 @@ const navigationItems = [
         icon: Building2,
       },
       { title: "Управління ліжками", url: "/admin/bed-management", icon: Bed },
-      { title: "Управління персоналом", url: "/admin/staff", icon: UserCheck },
+      { title: "Управління персоналом", url: "/admin/staff", icon: Shield },
     ],
   },
 ];

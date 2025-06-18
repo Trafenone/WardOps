@@ -13,6 +13,7 @@ public class UpdatePatientRequest
     public string? MedicalCardNumber { get; set; }
     public string? AdmissionDiagnosis { get; set; }
     public bool RequiresIsolation { get; set; }
+    public PatientStatus Status { get; set; }
     public string? Notes { get; set; }
 }
 
@@ -43,6 +44,9 @@ public class UpdatePatientRequestValidator : AbstractValidator<UpdatePatientRequ
 
         RuleFor(x => x.AdmissionDiagnosis)
             .MaximumLength(500).WithMessage("Admission diagnosis cannot exceed 500 characters.");
+
+        RuleFor(x => x.Status)
+            .IsInEnum().WithMessage("Invalid status value.");
 
         RuleFor(x => x.Notes)
             .MaximumLength(1000).WithMessage("Notes cannot exceed 1000 characters.");

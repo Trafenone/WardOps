@@ -22,6 +22,7 @@ public static class UpdatePatient
         public string? MedicalCardNumber { get; set; }
         public string? AdmissionDiagnosis { get; set; }
         public bool RequiresIsolation { get; set; }
+        public PatientStatus Status { get; set; }
         public string? Notes { get; set; }
     }
 
@@ -58,6 +59,7 @@ public static class UpdatePatient
             patient.MedicalCardNumber = request.MedicalCardNumber;
             patient.AdmissionDiagnosis = request.AdmissionDiagnosis;
             patient.RequiresIsolation = request.RequiresIsolation;
+            patient.Status = request.Status;
             patient.Notes = request.Notes;
 
             _dbContext.Update(patient);
@@ -74,6 +76,7 @@ public static class UpdatePatient
                 MedicalCardNumber = patient.MedicalCardNumber,
                 AdmissionDiagnosis = patient.AdmissionDiagnosis,
                 RequiresIsolation = patient.RequiresIsolation,
+                Status = request.Status,
                 Notes = patient.Notes
             };
         }
@@ -103,6 +106,7 @@ public class UpdatePatientEndpoint : ICarterModule
                 MedicalCardNumber = request.MedicalCardNumber,
                 AdmissionDiagnosis = request.AdmissionDiagnosis,
                 RequiresIsolation = request.RequiresIsolation,
+                Status = request.Status,
                 Notes = request.Notes
             };
 

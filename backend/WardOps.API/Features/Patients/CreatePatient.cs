@@ -52,6 +52,7 @@ public static class CreatePatient
                 MedicalCardNumber = request.MedicalCardNumber,
                 AdmissionDiagnosis = request.AdmissionDiagnosis,
                 RequiresIsolation = request.RequiresIsolation,
+                Status = PatientStatus.Registered,
                 Notes = request.Notes
             };
 
@@ -69,6 +70,7 @@ public static class CreatePatient
                 MedicalCardNumber = patient.MedicalCardNumber,
                 AdmissionDiagnosis = patient.AdmissionDiagnosis,
                 RequiresIsolation = patient.RequiresIsolation,
+                Status = patient.Status,
                 Notes = patient.Notes
             };
         }

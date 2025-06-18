@@ -13,7 +13,7 @@ public static class DischargePatient
 {
     public class Command : IRequest<HospitalizationResponse>
     {
-        public Guid HospitalizationId { get; set; }
+        public Guid PatientId { get; set; }
         public string? DischargeReason { get; set; }
         public DateTime ActualDischargeDateTime { get; set; }
     }
@@ -34,16 +34,11 @@ public static class DischargePatient
                 .Include(h => h.Bed)
                     .ThenInclude(b => b.Ward)
                         .ThenInclude(w => w.Department)
-                .FirstOrDefaultAsync(h => h.Id == request.HospitalizationId, cancellationToken);
+                .FirstOrDefaultAsync(h => h.PatientId == request.PatientId && h.Status == HospitalizationStatus.Active, cancellationToken);
 
             if (hospitalization == null)
             {
                 throw new KeyNotFoundException("Hospitalization not found.");
-            }
-
-            if (hospitalization.Status == HospitalizationStatus.Discharged)
-            {
-                throw new InvalidOperationException("Patient is already discharged.");
             }
 
             hospitalization.Status = HospitalizationStatus.Discharged;
@@ -79,7 +74,7 @@ public class DischargePatientEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("api/hospitalizations/{id}/discharge", async ([FromRoute] Guid id, [FromBody] DischargePatientRequest request, ISender sender, IValidator<DischargePatientRequest> validator) =>
+        app.MapPost("api/patients/{id}/hospitalization/discharge", async ([FromRoute] Guid id, [FromBody] DischargePatientRequest request, ISender sender, IValidator<DischargePatientRequest> validator) =>
         {
             var validationResult = await validator.ValidateAsync(request);
             if (!validationResult.IsValid)
@@ -89,7 +84,7 @@ public class DischargePatientEndpoint : ICarterModule
 
             var command = new DischargePatient.Command
             {
-                HospitalizationId = id,
+                PatientId = id,
                 DischargeReason = request.DischargeReason,
                 ActualDischargeDateTime = request.ActualDischargeDateTime ?? DateTime.UtcNow
             };

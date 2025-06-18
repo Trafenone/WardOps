@@ -10,7 +10,7 @@ public class Bed
     public string BedNumber { get; set; } = string.Empty;
     public BedStatus Status { get; set; }
     public string? Notes { get; set; }
-
+    
     public ICollection<Hospitalization> Hospitalizations { get; set; } = new List<Hospitalization>();
     public ICollection<BedEventLog> EventLogs { get; set; } = new List<BedEventLog>();
 }

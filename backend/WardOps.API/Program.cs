@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Resend;
 using Serilog;
+using Serilog.Events;
 using System.Text.Json.Serialization;
 using WardOps.API.Common.Configs;
 using WardOps.API.Database;
@@ -24,6 +25,7 @@ builder.Host.UseSerilog((context, configuration) =>
     configuration
         .WriteTo.Console()
         .MinimumLevel.Information()
+        .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
         .Enrich.FromLogContext();
 });
 
@@ -90,6 +92,7 @@ var app = builder.Build();
 
 app.UseSerilogRequestLogging();
 
+app.UseMiddleware<RequestLoggingMiddleware>();
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 if (app.Environment.IsDevelopment())

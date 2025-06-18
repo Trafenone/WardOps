@@ -14,6 +14,7 @@ public class Patient
     public string? AdmissionDiagnosis { get; set; }
     public bool RequiresIsolation { get; set; }
     public string? Notes { get; set; }
+    public PatientStatus Status { get; set; }
 
     public ICollection<Hospitalization> Hospitalizations { get; set; } = new List<Hospitalization>();
 }

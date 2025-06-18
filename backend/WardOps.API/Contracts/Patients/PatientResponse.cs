@@ -15,6 +15,7 @@ public class PatientResponse
     public string? MedicalCardNumber { get; set; }
     public string? AdmissionDiagnosis { get; set; }
     public bool RequiresIsolation { get; set; }
+    public PatientStatus Status { get; set; }
     public string? Notes { get; set; }
 
     private static int CalculateAge(DateTime birthDate)

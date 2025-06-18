@@ -1,10 +1,11 @@
 using Carter;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using WardOps.API.Database;
-using WardOps.API.Contracts.HospitalStructures;
 using WardOps.API.Contracts.Beds;
+using WardOps.API.Contracts.HospitalStructures;
 using WardOps.API.Contracts.WardTypes;
+using WardOps.API.Database;
+using WardOps.API.Entities.Enums;
 
 namespace WardOps.API.Features.HospitalStructures;
 
@@ -32,6 +33,12 @@ public static class GetHospitalStructure
                     .ThenInclude(w => w.Beds)
                 .ToListAsync(cancellationToken);
 
+            var activeHospitalizations = await _dbContext.Hospitalizations
+                .Where(h => h.Status == HospitalizationStatus.Active)
+                .Include(h => h.Patient)
+                .ToDictionaryAsync(h => h.BedId, h => new { h.PatientId, PatientName = $"{h.Patient.FirstName} {h.Patient.LastName}" },
+                    cancellationToken);
+
             var departmentsWithWards = departments.Select(d =>
                 new DepartmentWithWardsResponse
                 {
@@ -51,14 +58,23 @@ public static class GetHospitalStructure
                         GenderPolicy = w.GenderPolicy,
                         MaxCapacity = w.MaxCapacity,
                         Notes = w.Notes,
-                        Beds = w.Beds.Select(b => new BedResponse
+                        Beds = w.Beds.Select(b =>
                         {
-                            Id = b.Id,
-                            WardId = b.WardId,
-                            WardNumber = b.Ward.WardNumber,
-                            BedNumber = b.BedNumber,
-                            Status = b.Status,
-                            Notes = b.Notes
+                            activeHospitalizations.TryGetValue(b.Id, out var hospitalization);
+
+                            return new BedResponse
+                            {
+                                Id = b.Id,
+                                WardId = b.WardId,
+                                WardNumber = b.Ward.WardNumber,
+                                BedNumber = b.BedNumber,
+                                DepartmentId = w.DepartmentId,
+                                DepartmentName = w.Department.Name,
+                                Status = b.Status,
+                                PatientId = hospitalization?.PatientId,
+                                PatientName = hospitalization?.PatientName,
+                                Notes = b.Notes
+                            };
                         }).ToList()
                     }).ToList()
                 }).ToList();

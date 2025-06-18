@@ -38,6 +38,7 @@ public class ListPatients
                     MedicalCardNumber = p.MedicalCardNumber,
                     AdmissionDiagnosis = p.AdmissionDiagnosis,
                     RequiresIsolation = p.RequiresIsolation,
+                    Status = p.Status,
                     Notes = p.Notes
                 }).ToList()
             };

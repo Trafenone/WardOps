@@ -41,22 +41,24 @@ public static class ChangeBedStatus
                 throw new KeyNotFoundException("Bed not found.");
             }
 
-            if (bed.Status == request.Status)
-            {
-                return new BedResponse
-                {
-                    Id = bed.Id,
-                    WardId = bed.WardId,
-                    WardNumber = bed.Ward.WardNumber,
-                    BedNumber = bed.BedNumber,
-                    Status = bed.Status,
-                    Notes = bed.Notes
-                };
-            }
+            //if (bed.Status == request.Status)
+            //{
+            //    return new BedResponse
+            //    {
+            //        Id = bed.Id,
+            //        WardId = bed.WardId,
+            //        WardNumber = bed.Ward.WardNumber,
+            //        BedNumber = bed.BedNumber,
+            //        Status = bed.Status,
+            //        Notes = bed.Notes
+            //    };
+            //}
 
             var previousStatus = bed.Status;
 
             bed.Status = request.Status;
+            bed.Notes = request.Notes;
+
             _dbContext.Update(bed);
 
             var bedEventLog = new BedEventLog

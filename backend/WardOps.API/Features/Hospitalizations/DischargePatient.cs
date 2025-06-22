@@ -46,6 +46,7 @@ public static class DischargePatient
             hospitalization.DischargeReason = request.DischargeReason;
 
             hospitalization.Bed.Status = BedStatus.Cleaning;
+            hospitalization.Patient.Status = PatientStatus.Discharged;
 
             _dbContext.Update(hospitalization);
             await _dbContext.SaveChangesAsync(cancellationToken);

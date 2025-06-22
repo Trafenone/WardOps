@@ -66,6 +66,7 @@ public static class CreateHospitalization
             };
 
             bed.Status = BedStatus.Occupied;
+            patient.Status = PatientStatus.Hospitalized;
 
             await _dbContext.Hospitalizations.AddAsync(hospitalization, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);

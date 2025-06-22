@@ -210,3 +210,8 @@ export interface CreatePatientRequest {
 }
 
 export type UpdatePatientRequest = CreatePatientRequest;
+
+export interface ChangeBedStatusRequest {
+  status: BedStatus;
+  notes?: string;
+}

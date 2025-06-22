@@ -18,4 +18,17 @@ export const bedSchema = z.object({
     .nullable(),
 });
 
+export const changeBedStatusSchema = z.object({
+  status: z.nativeEnum(BedStatus, {
+    errorMap: () => ({ message: "Некоректний статус ліжка" }),
+  }),
+  notes: z
+    .string()
+    .max(500, { message: "Примітки не можуть бути довшими за 500 символів" })
+    .optional()
+    .nullable(),
+});
+
 export type BedFormValues = z.infer<typeof bedSchema>;
+
+export type ChangeBedStatusFormValues = z.infer<typeof changeBedStatusSchema>;

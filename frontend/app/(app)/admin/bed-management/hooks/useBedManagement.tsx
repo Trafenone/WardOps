@@ -202,18 +202,18 @@ export const useBedManagement = () => {
   };
 
   const handleDischargePatient = async (data: DischargePatientFormValues) => {
-    if (!dialogState.selectedBed) return;
+    if (!dialogState.selectedBed?.patientId) return;
 
     setIsLoading(true);
     try {
       await HospitalizationService.dischargePatientByPatientId(
-        dialogState.selectedBed.id,
+        dialogState.selectedBed.patientId!,
         {
           dischargeReason: data.dischargeReason,
           actualDischargeDateTime: data.actualDischargeDateTime,
         },
       );
-      setDialogState((prev) => ({ ...prev, isAssignPatientOpen: false }));
+      setDialogState((prev) => ({ ...prev, isDischargePatientOpen: false }));
       toast.success("Пацієнт успішно виписаний");
       await fetchData();
     } catch (e) {

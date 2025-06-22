@@ -26,7 +26,7 @@ interface DischargePatientFormDialogProps {
   onClose: () => void;
   onSubmit: (dischargePatientData: DischargePatientFormValues) => void;
   form: UseFormReturn<DischargePatientFormValues>;
-  selectedHospitalization: Hospitalization;
+  selectedHospitalization: Hospitalization | null;
   isLoading: boolean;
 }
 
@@ -38,6 +38,8 @@ export default function DischargePatientFormDialog({
   selectedHospitalization,
   isLoading,
 }: DischargePatientFormDialogProps) {
+  if (!selectedHospitalization) return null;
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>

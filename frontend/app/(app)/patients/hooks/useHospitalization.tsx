@@ -58,13 +58,13 @@ export const useHospitalization = () => {
   };
 
   const dischargePatient = async (
-    hospitalizationId: string,
+    patientId: string,
     dischargeData: DischargePatientFormValues,
   ) => {
     setIsLoading(true);
     try {
       const response = await HospitalizationService.dischargePatientByPatientId(
-        hospitalizationId,
+        patientId,
         {
           actualDischargeDateTime: dischargeData.actualDischargeDateTime,
           dischargeReason: dischargeData.dischargeReason,
@@ -72,9 +72,8 @@ export const useHospitalization = () => {
       );
 
       setHospitalizations((prev) =>
-        prev.map((h) => (h.id === hospitalizationId ? response : h)),
+        prev.map((h) => (h.patientId === patientId ? response : h)),
       );
-      toast.success("Пацієнт успішно виписаний");
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : "Помилка при виписці пацієнта";

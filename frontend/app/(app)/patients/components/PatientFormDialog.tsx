@@ -242,12 +242,18 @@ export function PatientFormDialog({
                         <SelectItem value={PatientStatus.Registered}>
                           Зареєстрований
                         </SelectItem>
-                        {/* <SelectItem value={PatientStatus.Hospitalized}>
+                        <SelectItem
+                          value={PatientStatus.Hospitalized}
+                          disabled={field.value !== PatientStatus.Hospitalized}
+                        >
                           Госпіталізований
                         </SelectItem>
-                        <SelectItem value={PatientStatus.Discharged}>
+                        <SelectItem
+                          value={PatientStatus.Discharged}
+                          disabled={field.value !== PatientStatus.Discharged}
+                        >
                           Виписаний
-                        </SelectItem> */}
+                        </SelectItem>
                         <SelectItem value={PatientStatus.Inactive}>
                           Неактивний
                         </SelectItem>

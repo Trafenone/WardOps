@@ -171,7 +171,7 @@ export default function PatientManagement() {
   ) => {
     try {
       await dischargePatient(
-        dialogState.selectedHospitalization!.id,
+        dialogState.selectedHospitalization!.patientId!,
         dischargeData,
       );
       setDialogState((prev) => ({
@@ -291,7 +291,7 @@ export default function PatientManagement() {
         }
         onSubmit={handleDischargePatient}
         form={dischargeForm}
-        selectedHospitalization={dialogState.selectedHospitalization!}
+        selectedHospitalization={dialogState.selectedHospitalization}
         isLoading={isLoading}
       />
 

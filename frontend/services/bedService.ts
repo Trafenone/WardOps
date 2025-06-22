@@ -1,5 +1,6 @@
 import {
   BedResponse,
+  ChangeBedStatusRequest,
   CreateBedRequest,
   ListBedsResponse,
   UpdateBedRequest,
@@ -7,6 +8,18 @@ import {
 import axios, { API_URL } from "./baseService";
 
 export class BedService {
+  static async getMyBeds(): Promise<BedResponse[]> {
+    try {
+      const response = await axios.get<ListBedsResponse>(
+        `${API_URL}/api/beds/my`,
+      );
+      return response.data.beds;
+    } catch (error) {
+      console.error("Failed to fetch my beds:", error);
+      throw error;
+    }
+  }
+
   static async getAllBeds(): Promise<BedResponse[]> {
     try {
       const response = await axios.get<ListBedsResponse>(`${API_URL}/api/beds`);
@@ -42,6 +55,22 @@ export class BedService {
       return response.data;
     } catch (error) {
       console.error("Failed to update bed:", error);
+      throw error;
+    }
+  }
+
+  static async changeBedStatus(
+    id: string,
+    data: ChangeBedStatusRequest,
+  ): Promise<BedResponse> {
+    try {
+      const response = await axios.patch<BedResponse>(
+        `${API_URL}/api/beds/${id}/status`,
+        data,
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Failed to change bed status:", error);
       throw error;
     }
   }

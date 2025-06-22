@@ -42,120 +42,129 @@ export const AssignPatientForm: React.FC<AssignPatientFormProps> = ({
   onCancel,
   selectedBed,
   patients,
-}) => (
-  <DialogContent>
-    <DialogHeader>
-      <DialogTitle>Призначення пацієнта</DialogTitle>
-      <DialogDescription>
-        Призначте пацієнта на ліжко {selectedBed?.bedNumber}
-      </DialogDescription>
-    </DialogHeader>
-    {selectedBed && (
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 py-4">
-          <FormField
-            control={form.control}
-            name="patientId"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Пацієнт</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
+}) => {
+  const filteredPatients = patients.filter((p) => p.status === "Registered");
+
+  return (
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>Призначення пацієнта</DialogTitle>
+        <DialogDescription>
+          Призначте пацієнта на ліжко {selectedBed?.bedNumber}
+        </DialogDescription>
+      </DialogHeader>
+      {selectedBed && (
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-4 py-4"
+          >
+            <FormField
+              control={form.control}
+              name="patientId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Пацієнт</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Оберіть пацієнта" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {filteredPatients.map((patient) => (
+                        <SelectItem key={patient.id} value={patient.id}>
+                          {patient.firstName + " " + patient.lastName}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="admissionReason"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Причина госпіталізації</FormLabel>
                   <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Оберіть пацієнта" />
-                    </SelectTrigger>
+                    <Textarea
+                      placeholder="Вкажіть причину госпіталізації..."
+                      {...field}
+                    />
                   </FormControl>
-                  <SelectContent>
-                    {patients.map((patient) => (
-                      <SelectItem key={patient.id} value={patient.id}>
-                        {patient.firstName + " " + patient.lastName}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="admissionReason"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Причина госпіталізації</FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder="Вкажіть причину госпіталізації..."
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="admissionDateTime"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Дата та час госпіталізації</FormLabel>
-                <FormControl>
-                  <Input
-                    type="datetime-local"
-                    {...field}
-                    value={
-                      field.value
-                        ? new Date(field.value).toISOString().substring(0, 16)
-                        : ""
-                    }
-                    onChange={(e) => field.onChange(new Date(e.target.value))}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="plannedDischargeDateTime"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Планова дата виписки (необов&apos;язково)</FormLabel>
-                <FormControl>
-                  <Input
-                    type="datetime-local"
-                    {...field}
-                    value={
-                      field.value
-                        ? new Date(field.value).toISOString().substring(0, 16)
-                        : ""
-                    }
-                    onChange={(e) =>
-                      field.onChange(
-                        e.target.value ? new Date(e.target.value) : undefined,
-                      )
-                    }
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <DialogFooter>
-            <Button type="button" variant="outline" onClick={onCancel}>
-              Скасувати
-            </Button>
-            <Button type="submit" disabled={form.formState.isSubmitting}>
-              {form.formState.isSubmitting
-                ? "Призначення..."
-                : "Призначити пацієнта"}
-            </Button>
-          </DialogFooter>
-        </form>
-      </Form>
-    )}
-  </DialogContent>
-);
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="admissionDateTime"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Дата та час госпіталізації</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="datetime-local"
+                      {...field}
+                      value={
+                        field.value
+                          ? new Date(field.value).toISOString().substring(0, 16)
+                          : ""
+                      }
+                      onChange={(e) => field.onChange(new Date(e.target.value))}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="plannedDischargeDateTime"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    Планова дата виписки (необов&apos;язково)
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      type="datetime-local"
+                      {...field}
+                      value={
+                        field.value
+                          ? new Date(field.value).toISOString().substring(0, 16)
+                          : ""
+                      }
+                      onChange={(e) =>
+                        field.onChange(
+                          e.target.value ? new Date(e.target.value) : undefined,
+                        )
+                      }
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <DialogFooter>
+              <Button type="button" variant="outline" onClick={onCancel}>
+                Скасувати
+              </Button>
+              <Button type="submit" disabled={form.formState.isSubmitting}>
+                {form.formState.isSubmitting
+                  ? "Призначення..."
+                  : "Призначити пацієнта"}
+              </Button>
+            </DialogFooter>
+          </form>
+        </Form>
+      )}
+    </DialogContent>
+  );
+};

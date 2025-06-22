@@ -17,6 +17,7 @@ import {
   LogOut,
   Activity,
   ClipboardList,
+  Building,
 } from "lucide-react";
 import { formatDateWithTime } from "@/lib/utils";
 
@@ -87,9 +88,14 @@ export default function HospitalizationViewDialog({
             }
           />
           <DetailRow
+            icon={<Building />}
+            label="Відділення"
+            value={hospitalization.departmentName}
+          />
+          <DetailRow
             icon={<Bed />}
             label="Ліжко"
-            value={hospitalization.bedId}
+            value={hospitalization.bedNumber}
           />
           <DetailRow
             icon={<LogIn />}

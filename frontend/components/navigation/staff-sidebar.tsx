@@ -14,15 +14,20 @@ import {
   SidebarHeader,
   SidebarFooter,
 } from "@/components/ui/sidebar";
-import { LayoutDashboard, Users, Bed } from "lucide-react";
+import { LayoutDashboard, Users, Bed, UserPlus } from "lucide-react";
 
 const navigationItems = [
   {
     title: "Основне",
     items: [
       { title: "Дашборд", url: "/dashboard", icon: LayoutDashboard },
-      { title: "Пацієнти", url: "/patients", icon: Users },
-      { title: "Ліжка", url: "/beds", icon: Bed },
+      {
+        title: "Швидка госпіталізація",
+        url: "/quick-hospitalization",
+        icon: Users,
+      },
+      { title: "Пацієнти", url: "/patients", icon: UserPlus },
+      { title: "Ліжка", url: "/bed-status", icon: Bed },
     ],
   },
 ];

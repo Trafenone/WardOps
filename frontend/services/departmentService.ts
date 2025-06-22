@@ -7,7 +7,7 @@ import {
   UpdateDepartmentRequest,
 } from "@/types/dtos";
 
-export class DepartmentsService {
+export class DepartmentService {
   static async getAllDepartments(): Promise<Department[]> {
     try {
       const response = await axios.get<ListDepartments>(

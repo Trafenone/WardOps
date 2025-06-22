@@ -65,7 +65,7 @@ export function HospitalizationList({
                   <TableCell>
                     <div className="flex items-center gap-1">
                       <Bed className="h-3 w-3" />
-                      Ліжко {hospitalization.bedId}
+                      Ліжко {hospitalization.bedNumber}
                     </div>
                   </TableCell>
                   <TableCell>

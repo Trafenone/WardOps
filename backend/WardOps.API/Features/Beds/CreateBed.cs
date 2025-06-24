@@ -31,10 +31,15 @@ public static class CreateBed
 
         public async Task<BedResponse> Handle(Command request, CancellationToken cancellationToken)
         {
-            var ward = await _dbContext.Wards.FirstOrDefaultAsync(w => w.Id == request.WardId, cancellationToken);
+            var ward = await _dbContext.Wards.Include(x => x.Beds).FirstOrDefaultAsync(w => w.Id == request.WardId, cancellationToken);
             if (ward == null)
             {
                 throw new KeyNotFoundException("Ward not found.");
+            }
+
+            if (ward.MaxCapacity >= ward.Beds.Count)
+            {
+                throw new InvalidOperationException("Ward is at full capacity.");
             }
 
             if (await _dbContext.Beds.AnyAsync(b =>

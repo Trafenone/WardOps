@@ -7,6 +7,7 @@ using WardOps.API.Contracts.Beds;
 using WardOps.API.Database;
 using WardOps.API.Entities;
 using WardOps.API.Entities.Enums;
+using WardOps.API.Services;
 
 namespace WardOps.API.Features.Beds;
 
@@ -16,18 +17,18 @@ public static class ChangeBedStatus
     {
         public Guid Id { get; set; }
         public BedStatus Status { get; set; }
-        public string? UserId { get; set; }
         public string? Notes { get; set; }
-        public BedEventType EventType { get; set; }
     }
 
     internal sealed class Handler : IRequestHandler<Command, BedResponse>
     {
         private readonly ApplicationDbContext _dbContext;
+        private readonly ICurrentUserService _currentUserService;
 
-        public Handler(ApplicationDbContext dbContext)
+        public Handler(ApplicationDbContext dbContext, ICurrentUserService currentUserService)
         {
             _dbContext = dbContext;
+            _currentUserService = currentUserService;
         }
 
         public async Task<BedResponse> Handle(Command request, CancellationToken cancellationToken)
@@ -41,18 +42,18 @@ public static class ChangeBedStatus
                 throw new KeyNotFoundException("Bed not found.");
             }
 
-            //if (bed.Status == request.Status)
-            //{
-            //    return new BedResponse
-            //    {
-            //        Id = bed.Id,
-            //        WardId = bed.WardId,
-            //        WardNumber = bed.Ward.WardNumber,
-            //        BedNumber = bed.BedNumber,
-            //        Status = bed.Status,
-            //        Notes = bed.Notes
-            //    };
-            //}
+            if (bed.Status == request.Status)
+            {
+                return new BedResponse
+                {
+                    Id = bed.Id,
+                    WardId = bed.WardId,
+                    WardNumber = bed.Ward.WardNumber,
+                    BedNumber = bed.BedNumber,
+                    Status = bed.Status,
+                    Notes = bed.Notes
+                };
+            }
 
             var previousStatus = bed.Status;
 
@@ -61,13 +62,16 @@ public static class ChangeBedStatus
 
             _dbContext.Update(bed);
 
+            var userId = _currentUserService.GetCurrentUserId();
+            var eventType = GetEventTypeForStatusChange(request.Status);
+
             var bedEventLog = new BedEventLog
             {
                 Id = Guid.NewGuid(),
                 BedId = bed.Id,
-                EventType = request.EventType,
+                EventType = eventType,
                 Timestamp = DateTime.UtcNow,
-                UserId = request.UserId,
+                UserId = userId,
                 Notes = request.Notes ?? $"Status changed from {previousStatus} to {request.Status}"
             };
 
@@ -84,6 +88,15 @@ public static class ChangeBedStatus
                 Notes = bed.Notes
             };
         }
+
+        private static BedEventType GetEventTypeForStatusChange(BedStatus newStatus) => newStatus switch
+        {
+            BedStatus.Cleaning => BedEventType.CleaningStarted,
+            BedStatus.Maintenance => BedEventType.MaintenanceScheduled,
+            BedStatus.Available => BedEventType.CleaningFinished,
+            BedStatus.Reserved => BedEventType.ReservationCreated,
+            _ => BedEventType.StatusManuallyChanged
+        };
     }
 }
 
@@ -103,8 +116,7 @@ public class ChangeBedStatusEndpoint : ICarterModule
             {
                 Id = id,
                 Status = request.Status,
-                Notes = request.Notes,
-                EventType = BedEventType.StatusManuallyChanged
+                Notes = request.Notes
             };
 
             var result = await sender.Send(command);

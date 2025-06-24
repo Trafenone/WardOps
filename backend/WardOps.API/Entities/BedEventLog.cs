@@ -11,7 +11,7 @@ public class BedEventLog
     public DateTime Timestamp { get; set; } = DateTime.UtcNow;
     public string? UserId { get; set; }
     public ApplicationUser? User { get; set; }
-    public Guid PatientId { get; set; }
-    public Patient Patient { get; set; } = null!;
+    public Guid? PatientId { get; set; }
+    public Patient? Patient { get; set; }
     public string? Notes { get; set; }
 }

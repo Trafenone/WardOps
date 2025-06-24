@@ -8,6 +8,7 @@ using WardOps.API.Contracts.Beds;
 using WardOps.API.Database;
 using WardOps.API.Entities;
 using WardOps.API.Entities.Enums;
+using WardOps.API.Services;
 
 namespace WardOps.API.Features.Beds;
 
@@ -24,10 +25,12 @@ public static class UpdateBed
     internal sealed class Handler : IRequestHandler<Command, BedResponse>
     {
         private readonly ApplicationDbContext _dbContext;
+        private readonly ICurrentUserService _currentUserService;
 
-        public Handler(ApplicationDbContext dbContext)
+        public Handler(ApplicationDbContext dbContext, ICurrentUserService currentUserService)
         {
             _dbContext = dbContext;
+            _currentUserService = currentUserService;
         }
 
         public async Task<BedResponse> Handle(Command request, CancellationToken cancellationToken)
@@ -59,12 +62,13 @@ public static class UpdateBed
 
             if (previousStatus != request.Status)
             {
+                var userId = _currentUserService.GetCurrentUserId();
                 var bedEventLog = new BedEventLog
                 {
-                    Id = Guid.NewGuid(),
                     BedId = bed.Id,
                     EventType = BedEventType.StatusManuallyChanged,
                     Timestamp = DateTime.UtcNow,
+                    UserId = userId,
                     Notes = $"Status changed from {previousStatus} to {request.Status}"
                 };
 

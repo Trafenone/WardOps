@@ -3,10 +3,12 @@ using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using WardOps.API.Contracts.Hospitalizations;
 using WardOps.API.Database;
 using WardOps.API.Entities;
 using WardOps.API.Entities.Enums;
+using WardOps.API.Services;
 
 namespace WardOps.API.Features.Hospitalizations;
 
@@ -25,10 +27,12 @@ public static class CreateHospitalization
     internal sealed class Handler : IRequestHandler<Command, HospitalizationResponse>
     {
         private readonly ApplicationDbContext _dbContext;
+        private readonly ICurrentUserService _currentUserService;
 
-        public Handler(ApplicationDbContext dbContext)
+        public Handler(ApplicationDbContext dbContext, ICurrentUserService currentUserService)
         {
             _dbContext = dbContext;
+            _currentUserService = currentUserService;
         }
 
         public async Task<HospitalizationResponse> Handle(Command request, CancellationToken cancellationToken)
@@ -69,6 +73,19 @@ public static class CreateHospitalization
             patient.Status = PatientStatus.Hospitalized;
 
             await _dbContext.Hospitalizations.AddAsync(hospitalization, cancellationToken);
+
+            var userId = _currentUserService.GetCurrentUserId();
+            var bedEventLog = new BedEventLog
+            {
+                BedId = bed.Id,
+                PatientId = patient.Id,
+                EventType = BedEventType.Occupied,
+                Timestamp = DateTime.UtcNow,
+                UserId = userId,
+                Notes = $"Patient {patient.FirstName} {patient.LastName} was assigned to bed {bed.BedNumber}."
+            };
+            _dbContext.BedEventLogs.Add(bedEventLog);
+
             await _dbContext.SaveChangesAsync(cancellationToken);
 
             return new HospitalizationResponse

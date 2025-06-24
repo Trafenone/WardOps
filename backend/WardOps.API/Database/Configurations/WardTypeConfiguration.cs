@@ -16,10 +16,5 @@ public class WardTypeConfiguration : IEntityTypeConfiguration<WardType>
 
         builder.Property(wt => wt.Description)
             .HasMaxLength(500);
-
-        builder.HasMany(wt => wt.Wards)
-            .WithOne(w => w.WardType)
-            .HasForeignKey(w => w.WardTypeId)
-            .OnDelete(DeleteBehavior.SetNull);
     }
 }

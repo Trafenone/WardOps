@@ -210,10 +210,10 @@ public static class DbInitializer
             new Patient { Id = Guid.NewGuid(), FirstName = "Леся", LastName = "Українка", Gender = Gender.Female, DateOfBirth = new DateTime(1992, 11, 30), PhoneNumber = "380973322111", MedicalCardNumber = "MC09876", AdmissionDiagnosis = "Закритий перелом стегнової кістки", RequiresIsolation = false, Status = PatientStatus.Hospitalized, Notes = "Післяопераційна реабілітація." },
             new Patient { Id = Guid.NewGuid(), FirstName = "Григорій", LastName = "Сковорода", Gender = Gender.Male, DateOfBirth = new DateTime(1973, 3, 25), PhoneNumber = "380935556677", MedicalCardNumber = "MC13579", AdmissionDiagnosis = "Негоспітальна пневмонія", RequiresIsolation = true, Status = PatientStatus.Hospitalized, Notes = "Ізоляція через інфекційне захворювання." },
             new Patient { Id = Guid.NewGuid(), FirstName = "Софія", LastName = "Яблонська", Gender = Gender.Female, DateOfBirth = new DateTime(1985, 7, 12), PhoneNumber = "380987766555", MedicalCardNumber = "MC97531", AdmissionDiagnosis = "Загострення бронхіальної астми", RequiresIsolation = false, Status = PatientStatus.Hospitalized, Notes = "Стан стабільний, продовжувати інгаляційну терапію." },
-            new Patient { Id = Guid.NewGuid(), FirstName = "Іван", LastName = "Франко", Gender = Gender.Male, DateOfBirth = new DateTime(1947, 4, 15), PhoneNumber = "380931112233", MedicalCardNumber = "MC24680", AdmissionDiagnosis = "Цукровий діабет II типу", RequiresIsolation = false, Status = PatientStatus.Hospitalized, Notes = "Регулярний моніторинг рівня глюкози в крові." },
-            new Patient { Id = Guid.NewGuid(), FirstName = "Катерина", LastName = "Білокур", Gender = Gender.Female, DateOfBirth = new DateTime(1970, 9, 5), PhoneNumber = "380939988776", MedicalCardNumber = "MC11223", AdmissionDiagnosis = "Ішемічна хвороба серця", RequiresIsolation = false, Status = PatientStatus.Hospitalized, Notes = "Призначено кардіообстеження." },
-            new Patient { Id = Guid.NewGuid(), FirstName = "Михайло", LastName = "Коцюбинський", Gender = Gender.Male, DateOfBirth = new DateTime(1999, 6, 3), PhoneNumber = "380938887766", MedicalCardNumber = "MC88776", AdmissionDiagnosis = "COVID-19", RequiresIsolation = true, Status = PatientStatus.Hospitalized, Notes = "Ізоляція обов’язкова, моніторинг сатурації." },
-            new Patient { Id = Guid.NewGuid(), FirstName = "Олена", LastName = "Теліга", Gender = Gender.Female, DateOfBirth = new DateTime(2002, 2, 14), PhoneNumber = "380939933221", MedicalCardNumber = "MC33221", AdmissionDiagnosis = "Гострий гастроентерит", RequiresIsolation = false, Status = PatientStatus.Hospitalized, Notes = "Дієтичне харчування та регідратація." }
+            new Patient { Id = Guid.NewGuid(), FirstName = "Іван", LastName = "Франко", Gender = Gender.Male, DateOfBirth = new DateTime(1947, 4, 15), PhoneNumber = "380931112233", MedicalCardNumber = "MC24680", AdmissionDiagnosis = "Цукровий діабет II типу", RequiresIsolation = false, Status = PatientStatus.Registered, Notes = "Регулярний моніторинг рівня глюкози в крові." },
+            new Patient { Id = Guid.NewGuid(), FirstName = "Катерина", LastName = "Білокур", Gender = Gender.Female, DateOfBirth = new DateTime(1970, 9, 5), PhoneNumber = "380939988776", MedicalCardNumber = "MC11223", AdmissionDiagnosis = "Ішемічна хвороба серця", RequiresIsolation = false, Status = PatientStatus.Registered, Notes = "Призначено кардіообстеження." },
+            new Patient { Id = Guid.NewGuid(), FirstName = "Михайло", LastName = "Коцюбинський", Gender = Gender.Male, DateOfBirth = new DateTime(1999, 6, 3), PhoneNumber = "380938887766", MedicalCardNumber = "MC88776", AdmissionDiagnosis = "COVID-19", RequiresIsolation = true, Status = PatientStatus.Registered, Notes = "Ізоляція обов’язкова, моніторинг сатурації." },
+            new Patient { Id = Guid.NewGuid(), FirstName = "Олена", LastName = "Теліга", Gender = Gender.Female, DateOfBirth = new DateTime(2002, 2, 14), PhoneNumber = "380939933221", MedicalCardNumber = "MC33221", AdmissionDiagnosis = "Гострий гастроентерит", RequiresIsolation = false, Status = PatientStatus.Registered, Notes = "Дієтичне харчування та регідратація." }
         };
 
         await dbContext.Patients.AddRangeAsync(patients);
@@ -273,7 +273,7 @@ public static class DbInitializer
             return bed;
         }
 
-        var simonenkoBed = GetAndReserveAvailableBed("102");
+        var simonenkoBed = GetAndReserveAvailableBed("К-102");
         if (simonenkoBed != null)
         {
             hospitalizations.Add(new Hospitalization
@@ -287,7 +287,7 @@ public static class DbInitializer
             });
         }
 
-        var prymachenkoBed = GetAndReserveAvailableBed("101");
+        var prymachenkoBed = GetAndReserveAvailableBed("К-101");
         if (prymachenkoBed != null)
         {
             hospitalizations.Add(new Hospitalization
@@ -301,7 +301,7 @@ public static class DbInitializer
             });
         }
 
-        var dovzhenkoBed = GetAndReserveAvailableBed("201");
+        var dovzhenkoBed = GetAndReserveAvailableBed("Х-201");
         if (dovzhenkoBed != null)
         {
             hospitalizations.Add(new Hospitalization
@@ -315,7 +315,7 @@ public static class DbInitializer
             });
         }
 
-        var ukrainkaBed = GetAndReserveAvailableBed("202");
+        var ukrainkaBed = GetAndReserveAvailableBed("Х-202");
         if (ukrainkaBed != null)
         {
             hospitalizations.Add(new Hospitalization
@@ -330,7 +330,7 @@ public static class DbInitializer
             });
         }
 
-        var skovorodaBed = GetAndReserveAvailableBed("302");
+        var skovorodaBed = GetAndReserveAvailableBed("Т-302");
         if (skovorodaBed != null)
         {
             hospitalizations.Add(new Hospitalization
@@ -344,7 +344,7 @@ public static class DbInitializer
             });
         }
 
-        var yablonskaBed = GetAndReserveAvailableBed("301");
+        var yablonskaBed = GetAndReserveAvailableBed("Т-301");
         if (yablonskaBed != null)
         {
             hospitalizations.Add(new Hospitalization

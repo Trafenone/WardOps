@@ -5,6 +5,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ADMIN } from "@/types/constants";
 import { BedStatus } from "@/types/enums";
 import { Department } from "@/types/models";
 
@@ -27,7 +28,7 @@ export function BedStatusFilters({
 }: BedStatusFiltersProps) {
   return (
     <div className="flex flex-wrap gap-4">
-      {userRole === "Admin" && (
+      {userRole === ADMIN && (
         <Select
           value={selectedDepartment}
           onValueChange={setSelectedDepartment}

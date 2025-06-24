@@ -104,6 +104,7 @@ export default function PatientManagement() {
   };
 
   const onDischargePatient = (hospitalization: Hospitalization) => {
+    resetDischargeForm();
     setDialogState((prev) => ({
       ...prev,
       selectedHospitalization: hospitalization,

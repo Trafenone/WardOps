@@ -19,7 +19,6 @@ import {
   Bed,
   UserCheck,
   Building2,
-  BarChart3,
   Shield,
 } from "lucide-react";
 
@@ -28,7 +27,7 @@ const navigationItems = [
     title: "Головна",
     items: [
       { title: "Дашборд", url: "/dashboard", icon: LayoutDashboard },
-      { title: "Аналітика", url: "/admin/analytics", icon: BarChart3 },
+      // { title: "Аналітика", url: "/admin/analytics", icon: BarChart3 },
       { title: "Пацієнти", url: "/patients", icon: UserCheck },
     ],
   },

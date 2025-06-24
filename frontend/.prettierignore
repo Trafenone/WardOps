@@ -1,0 +1,16 @@
+# Directories
+node_modules/
+.next/
+build/
+dist/
+public/
+.github/
+.vscode/
+
+# Files
+.gitignore
+README.md
+*.log
+*.lock
+package-lock.json
+yarn.lock

@@ -49,7 +49,7 @@ builder.Services.Configure<JsonOptions>(options =>
 });
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseInMemoryDatabase("wardops.db"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
@@ -108,9 +108,28 @@ app.UseAuthorization();
 
 app.MapCarter();
 
+// Health check endpoint for Docker
+app.MapGet("/health", () => Results.Ok("Healthy"));
+
 app.UseHttpsRedirection();
 
 Log.Information("Starting WardOps API");
+
+// Apply migrations
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    try
+    {
+        dbContext.Database.Migrate();
+        Log.Information("Database migrations applied successfully");
+    }
+    catch (Exception ex)
+    {
+        Log.Error(ex, "An error occurred while applying migrations");
+    }
+}
+
 await DbInitializer.SeedData(app.Services);
 Log.Information("Database seeded");
 

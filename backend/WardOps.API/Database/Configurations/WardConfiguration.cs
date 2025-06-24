@@ -32,7 +32,8 @@ public class WardConfiguration : IEntityTypeConfiguration<Ward>
 
         builder.HasOne(w => w.WardType)
             .WithMany(wt => wt.Wards)
-            .HasForeignKey(w => w.WardTypeId);
+            .HasForeignKey(w => w.WardTypeId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasMany(w => w.Beds)
             .WithOne(b => b.Ward)

@@ -37,7 +37,7 @@ public static class CreateBed
                 throw new KeyNotFoundException("Ward not found.");
             }
 
-            if (ward.MaxCapacity >= ward.Beds.Count)
+            if (ward.MaxCapacity == ward.Beds.Count)
             {
                 throw new InvalidOperationException("Ward is at full capacity.");
             }

@@ -25,10 +25,15 @@ public static class DeleteDepartment
 
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
-            var department = await _dbContext.Departments.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+            var department = await _dbContext.Departments.Include(x => x.Wards).FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
             if (department == null)
             {
                 throw new KeyNotFoundException("Department not found.");
+            }
+
+            if (department.Wards.Count != 0)
+            {
+                throw new InvalidOperationException("Department deletion is not allowed while it still contains wards.");
             }
 
             _dbContext.Departments.Remove(department);

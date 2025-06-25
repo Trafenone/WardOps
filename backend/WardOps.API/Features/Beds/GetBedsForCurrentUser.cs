@@ -6,6 +6,7 @@ using WardOps.API.Common;
 using WardOps.API.Contracts.Beds;
 using WardOps.API.Database;
 using WardOps.API.Entities;
+using WardOps.API.Entities.Enums;
 using WardOps.API.Services;
 
 namespace WardOps.API.Features.Beds;
@@ -45,21 +46,31 @@ public class GetBedsForCurrentUser
                 query = query.Where(b => b.Ward.DepartmentId == user.DepartmentId);
             }
 
-            var beds = await query.ToListAsync(cancellationToken);
+            var beds = await query
+                .Include(x => x.Hospitalizations)
+                .ThenInclude(h => h.Patient)
+                .ToListAsync(cancellationToken);
 
             return new ListBedsResponse
             {
-                Beds = beds.Select(b => new BedResponse
+                Beds = beds.Select(b =>
                 {
-                    Id = b.Id,
-                    WardId = b.WardId,
-                    WardNumber = b.Ward.WardNumber,
-                    DepartmentId = b.Ward.DepartmentId,
-                    DepartmentName = b.Ward.Department.Name,
-                    BedNumber = b.BedNumber,
-                    //PatientId = b.
-                    Status = b.Status,
-                    Notes = b.Notes
+                    var activeHospitalization =
+                        b.Hospitalizations.FirstOrDefault(x =>
+                            x.Status == HospitalizationStatus.Active);
+                    return new BedResponse
+                    {
+                        Id = b.Id,
+                        WardId = b.WardId,
+                        WardNumber = b.Ward.WardNumber,
+                        DepartmentId = b.Ward.DepartmentId,
+                        DepartmentName = b.Ward.Department.Name,
+                        BedNumber = b.BedNumber,
+                        PatientId = activeHospitalization?.PatientId,
+                        PatientName = activeHospitalization?.Patient?.GetFullName,
+                        Status = b.Status,
+                        Notes = b.Notes
+                    };
                 }).ToList()
             };
         }

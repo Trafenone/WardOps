@@ -56,9 +56,10 @@ public static class DbInitializer
                 UserName = adminEmail,
                 Email = adminEmail,
                 EmailConfirmed = true,
-                FirstName = "System",
-                LastName = "Administrator",
-                Position = PositionType.Administrator
+                FirstName = "Системний",
+                LastName = "Адміністратор",
+                Position = PositionType.Administrator,
+                IsActive = true
             };
 
             var result = await userManager.CreateAsync(admin, "Admin123!");
@@ -147,11 +148,46 @@ public static class DbInitializer
         logger.LogInformation("Seeding departments");
         var departments = new List<Department>
         {
-            new Department { Id = Guid.NewGuid(), Name = "Кардіологія" },
-            new Department { Id = Guid.NewGuid(), Name = "Хірургія" },
-            new Department { Id = Guid.NewGuid(), Name = "Терапія" },
-            new Department { Id = Guid.NewGuid(), Name = "Неврологія" },
-            new Department { Id = Guid.NewGuid(), Name = "Педіатрія" }
+            new Department
+        {
+            Id = Guid.NewGuid(),
+            Name = "Кардіологія",
+            Building = "Корпус A",
+            FloorNumber = 2,
+            Description = "Відділення спеціалізується на діагностиці та лікуванні захворювань серця і судин."
+        },
+        new Department
+        {
+            Id = Guid.NewGuid(),
+            Name = "Хірургія",
+            Building = "Корпус B",
+            FloorNumber = 1,
+            Description = "Забезпечує проведення хірургічних втручань та післяопераційне лікування."
+        },
+        new Department
+        {
+            Id = Guid.NewGuid(),
+            Name = "Терапія",
+            Building = "Корпус A",
+            FloorNumber = 3,
+            Description = "Лікування широкого спектру внутрішніх захворювань."
+        },
+        new Department
+        {
+            Id = Guid.NewGuid(),
+            Name = "Неврологія",
+            Building = "Корпус C",
+            FloorNumber = 2,
+            Description = "Спеціалізується на діагностиці та лікуванні хвороб нервової системи."
+        },
+        new Department
+        {
+            Id = Guid.NewGuid(),
+            Name = "Педіатрія",
+            Building = "Корпус D",
+            FloorNumber = 1,
+            Description = "Медична допомога дітям від народження до 18 років."
+        }
         };
         await dbContext.Departments.AddRangeAsync(departments);
         await dbContext.SaveChangesAsync();
@@ -204,13 +240,13 @@ public static class DbInitializer
 
         var patients = new List<Patient>
         {
-            new Patient { Id = Guid.NewGuid(), FirstName = "Василь", LastName = "Симоненко", Gender = Gender.Male, DateOfBirth = new DateTime(1965, 5, 20), PhoneNumber = "380951234567", MedicalCardNumber = "MC12345", AdmissionDiagnosis = "Гострий інфаркт міокарда", RequiresIsolation = false, Status = PatientStatus.Hospitalized, Notes = "Пацієнт потребує постійного моніторингу серцевого ритму." },
-            new Patient { Id = Guid.NewGuid(), FirstName = "Марія", LastName = "Примаченко", Gender = Gender.Female, DateOfBirth = new DateTime(1958, 8, 15), PhoneNumber = "380957654321", MedicalCardNumber = "MC54321", AdmissionDiagnosis = "Гіпертонічний криз", RequiresIsolation = false, Status = PatientStatus.Hospitalized, Notes = "Контроль артеріального тиску кожні 2 години." },
-            new Patient { Id = Guid.NewGuid(), FirstName = "Олександр", LastName = "Довженко", Gender = Gender.Male, DateOfBirth = new DateTime(1980, 1, 10), PhoneNumber = "380961112233", MedicalCardNumber = "MC67890", AdmissionDiagnosis = "Гострий апендицит", RequiresIsolation = false, Status = PatientStatus.Hospitalized, Notes = "Підготовка до апендектомії." },
-            new Patient { Id = Guid.NewGuid(), FirstName = "Леся", LastName = "Українка", Gender = Gender.Female, DateOfBirth = new DateTime(1992, 11, 30), PhoneNumber = "380973322111", MedicalCardNumber = "MC09876", AdmissionDiagnosis = "Закритий перелом стегнової кістки", RequiresIsolation = false, Status = PatientStatus.Hospitalized, Notes = "Післяопераційна реабілітація." },
-            new Patient { Id = Guid.NewGuid(), FirstName = "Григорій", LastName = "Сковорода", Gender = Gender.Male, DateOfBirth = new DateTime(1973, 3, 25), PhoneNumber = "380935556677", MedicalCardNumber = "MC13579", AdmissionDiagnosis = "Негоспітальна пневмонія", RequiresIsolation = true, Status = PatientStatus.Hospitalized, Notes = "Ізоляція через інфекційне захворювання." },
-            new Patient { Id = Guid.NewGuid(), FirstName = "Софія", LastName = "Яблонська", Gender = Gender.Female, DateOfBirth = new DateTime(1985, 7, 12), PhoneNumber = "380987766555", MedicalCardNumber = "MC97531", AdmissionDiagnosis = "Загострення бронхіальної астми", RequiresIsolation = false, Status = PatientStatus.Hospitalized, Notes = "Стан стабільний, продовжувати інгаляційну терапію." },
-            new Patient { Id = Guid.NewGuid(), FirstName = "Іван", LastName = "Франко", Gender = Gender.Male, DateOfBirth = new DateTime(1947, 4, 15), PhoneNumber = "380931112233", MedicalCardNumber = "MC24680", AdmissionDiagnosis = "Цукровий діабет II типу", RequiresIsolation = false, Status = PatientStatus.Registered, Notes = "Регулярний моніторинг рівня глюкози в крові." },
+            new Patient { Id = Guid.NewGuid(), FirstName = "Василь", LastName = "Коваль", Gender = Gender.Male, DateOfBirth = new DateTime(1965, 5, 20), PhoneNumber = "380951234567", MedicalCardNumber = "MC12345", AdmissionDiagnosis = "Гострий інфаркт міокарда", RequiresIsolation = false, Status = PatientStatus.Hospitalized, Notes = "Пацієнт потребує постійного моніторингу серцевого ритму." },
+            new Patient { Id = Guid.NewGuid(), FirstName = "Марія", LastName = "Іванова", Gender = Gender.Female, DateOfBirth = new DateTime(1958, 8, 15), PhoneNumber = "380957654321", MedicalCardNumber = "MC54321", AdmissionDiagnosis = "Гіпертонічний криз", RequiresIsolation = false, Status = PatientStatus.Hospitalized, Notes = "Контроль артеріального тиску кожні 2 години." },
+            new Patient { Id = Guid.NewGuid(), FirstName = "Сергій", LastName = "Довженко", Gender = Gender.Male, DateOfBirth = new DateTime(1980, 1, 10), PhoneNumber = "380961112233", MedicalCardNumber = "MC67890", AdmissionDiagnosis = "Гострий апендицит", RequiresIsolation = false, Status = PatientStatus.Hospitalized, Notes = "Підготовка до апендектомії." },
+            new Patient { Id = Guid.NewGuid(), FirstName = "Леся", LastName = "Кравченко", Gender = Gender.Female, DateOfBirth = new DateTime(1992, 11, 30), PhoneNumber = "380973322111", MedicalCardNumber = "MC09876", AdmissionDiagnosis = "Закритий перелом стегнової кістки", RequiresIsolation = false, Status = PatientStatus.Hospitalized, Notes = "Післяопераційна реабілітація." },
+            new Patient { Id = Guid.NewGuid(), FirstName = "Григорій", LastName = "Петренко", Gender = Gender.Male, DateOfBirth = new DateTime(1973, 3, 25), PhoneNumber = "380935556677", MedicalCardNumber = "MC13579", AdmissionDiagnosis = "Негоспітальна пневмонія", RequiresIsolation = true, Status = PatientStatus.Hospitalized, Notes = "Ізоляція через інфекційне захворювання." },
+            new Patient { Id = Guid.NewGuid(), FirstName = "Софія", LastName = "Сидоренко", Gender = Gender.Female, DateOfBirth = new DateTime(1985, 7, 12), PhoneNumber = "380987766555", MedicalCardNumber = "MC97531", AdmissionDiagnosis = "Загострення бронхіальної астми", RequiresIsolation = false, Status = PatientStatus.Hospitalized, Notes = "Стан стабільний, продовжувати інгаляційну терапію." },
+            new Patient { Id = Guid.NewGuid(), FirstName = "Іван", LastName = "Соляков", Gender = Gender.Male, DateOfBirth = new DateTime(1947, 4, 15), PhoneNumber = "380931112233", MedicalCardNumber = "MC24680", AdmissionDiagnosis = "Цукровий діабет II типу", RequiresIsolation = false, Status = PatientStatus.Registered, Notes = "Регулярний моніторинг рівня глюкози в крові." },
             new Patient { Id = Guid.NewGuid(), FirstName = "Катерина", LastName = "Білокур", Gender = Gender.Female, DateOfBirth = new DateTime(1970, 9, 5), PhoneNumber = "380939988776", MedicalCardNumber = "MC11223", AdmissionDiagnosis = "Ішемічна хвороба серця", RequiresIsolation = false, Status = PatientStatus.Registered, Notes = "Призначено кардіообстеження." },
             new Patient { Id = Guid.NewGuid(), FirstName = "Михайло", LastName = "Коцюбинський", Gender = Gender.Male, DateOfBirth = new DateTime(1999, 6, 3), PhoneNumber = "380938887766", MedicalCardNumber = "MC88776", AdmissionDiagnosis = "COVID-19", RequiresIsolation = true, Status = PatientStatus.Registered, Notes = "Ізоляція обов’язкова, моніторинг сатурації." },
             new Patient { Id = Guid.NewGuid(), FirstName = "Олена", LastName = "Теліга", Gender = Gender.Female, DateOfBirth = new DateTime(2002, 2, 14), PhoneNumber = "380939933221", MedicalCardNumber = "MC33221", AdmissionDiagnosis = "Гострий гастроентерит", RequiresIsolation = false, Status = PatientStatus.Registered, Notes = "Дієтичне харчування та регідратація." }
@@ -230,12 +266,12 @@ public static class DbInitializer
 
         var wards = new List<Ward>
         {
-            new Ward { Id = Guid.NewGuid(), WardNumber = "К-101", DepartmentId = departments["Кардіологія"], WardTypeId = wardTypes["Загальнотерапевтична"], GenderPolicy = WardGenderPolicy.Mixed, MaxCapacity = 4 },
-            new Ward { Id = Guid.NewGuid(), WardNumber = "К-102", DepartmentId = departments["Кардіологія"], WardTypeId = wardTypes["Інтенсивна терапія (ВІТ)"], GenderPolicy = WardGenderPolicy.Mixed, MaxCapacity = 2 },
-            new Ward { Id = Guid.NewGuid(), WardNumber = "Х-201", DepartmentId = departments["Хірургія"], WardTypeId = wardTypes["Хірургічна"], GenderPolicy = WardGenderPolicy.MaleOnly, MaxCapacity = 3 },
-            new Ward { Id = Guid.NewGuid(), WardNumber = "Х-202", DepartmentId = departments["Хірургія"], WardTypeId = wardTypes["Хірургічна"], GenderPolicy = WardGenderPolicy.FemaleOnly, MaxCapacity = 3 },
-            new Ward { Id = Guid.NewGuid(), WardNumber = "Т-301", DepartmentId = departments["Терапія"], WardTypeId = wardTypes["Загальнотерапевтична"], GenderPolicy = WardGenderPolicy.Mixed, MaxCapacity = 5 },
-            new Ward { Id = Guid.NewGuid(), WardNumber = "Т-302", DepartmentId = departments["Терапія"], WardTypeId = wardTypes["Ізолятор"], GenderPolicy = WardGenderPolicy.Mixed, MaxCapacity = 1 }
+            new Ward { Id = Guid.NewGuid(), WardNumber = "КАР-201", DepartmentId = departments["Кардіологія"], WardTypeId = wardTypes["Загальнотерапевтична"], GenderPolicy = WardGenderPolicy.Mixed, MaxCapacity = 4 },
+            new Ward { Id = Guid.NewGuid(), WardNumber = "КАР-202", DepartmentId = departments["Кардіологія"], WardTypeId = wardTypes["Інтенсивна терапія (ВІТ)"], GenderPolicy = WardGenderPolicy.Mixed, MaxCapacity = 2 },
+            new Ward { Id = Guid.NewGuid(), WardNumber = "ХІР-201", DepartmentId = departments["Хірургія"], WardTypeId = wardTypes["Хірургічна"], GenderPolicy = WardGenderPolicy.MaleOnly, MaxCapacity = 3 },
+            new Ward { Id = Guid.NewGuid(), WardNumber = "ХІР-202", DepartmentId = departments["Хірургія"], WardTypeId = wardTypes["Хірургічна"], GenderPolicy = WardGenderPolicy.FemaleOnly, MaxCapacity = 3 },
+            new Ward { Id = Guid.NewGuid(), WardNumber = "ТЕР-301", DepartmentId = departments["Терапія"], WardTypeId = wardTypes["Загальнотерапевтична"], GenderPolicy = WardGenderPolicy.Mixed, MaxCapacity = 5 },
+            new Ward { Id = Guid.NewGuid(), WardNumber = "ТЕР-302", DepartmentId = departments["Терапія"], WardTypeId = wardTypes["Ізолятор"], GenderPolicy = WardGenderPolicy.Mixed, MaxCapacity = 1 }
         };
 
         foreach (var ward in wards)
@@ -273,13 +309,13 @@ public static class DbInitializer
             return bed;
         }
 
-        var simonenkoBed = GetAndReserveAvailableBed("К-102");
+        var simonenkoBed = GetAndReserveAvailableBed("КАР-202");
         if (simonenkoBed != null)
         {
             hospitalizations.Add(new Hospitalization
             {
                 Id = Guid.NewGuid(),
-                PatientId = patients["Симоненко"],
+                PatientId = patients["Коваль"],
                 BedId = simonenkoBed.Id,
                 AdmissionDateTime = DateTime.Now.AddDays(-2),
                 AdmissionReason = "Гострий інфаркт міокарда",
@@ -287,13 +323,13 @@ public static class DbInitializer
             });
         }
 
-        var prymachenkoBed = GetAndReserveAvailableBed("К-101");
+        var prymachenkoBed = GetAndReserveAvailableBed("КАР-201");
         if (prymachenkoBed != null)
         {
             hospitalizations.Add(new Hospitalization
             {
                 Id = Guid.NewGuid(),
-                PatientId = patients["Примаченко"],
+                PatientId = patients["Іванова"],
                 BedId = prymachenkoBed.Id,
                 AdmissionDateTime = DateTime.Now.AddDays(-1),
                 AdmissionReason = "Гіпертонічний криз",
@@ -301,7 +337,7 @@ public static class DbInitializer
             });
         }
 
-        var dovzhenkoBed = GetAndReserveAvailableBed("Х-201");
+        var dovzhenkoBed = GetAndReserveAvailableBed("ХІР-201");
         if (dovzhenkoBed != null)
         {
             hospitalizations.Add(new Hospitalization
@@ -315,13 +351,13 @@ public static class DbInitializer
             });
         }
 
-        var ukrainkaBed = GetAndReserveAvailableBed("Х-202");
+        var ukrainkaBed = GetAndReserveAvailableBed("ХІР-202");
         if (ukrainkaBed != null)
         {
             hospitalizations.Add(new Hospitalization
             {
                 Id = Guid.NewGuid(),
-                PatientId = patients["Українка"],
+                PatientId = patients["Кравченко"],
                 BedId = ukrainkaBed.Id,
                 AdmissionDateTime = DateTime.Now.AddDays(-5),
                 PlannedDischargeDateTime = DateTime.Now.AddDays(10),
@@ -330,13 +366,13 @@ public static class DbInitializer
             });
         }
 
-        var skovorodaBed = GetAndReserveAvailableBed("Т-302");
+        var skovorodaBed = GetAndReserveAvailableBed("ТЕР-302");
         if (skovorodaBed != null)
         {
             hospitalizations.Add(new Hospitalization
             {
                 Id = Guid.NewGuid(),
-                PatientId = patients["Сковорода"],
+                PatientId = patients["Петренко"],
                 BedId = skovorodaBed.Id,
                 AdmissionDateTime = DateTime.Now.AddDays(-3),
                 AdmissionReason = "Негоспітальна пневмонія",
@@ -344,13 +380,13 @@ public static class DbInitializer
             });
         }
 
-        var yablonskaBed = GetAndReserveAvailableBed("Т-301");
+        var yablonskaBed = GetAndReserveAvailableBed("ТЕР-301");
         if (yablonskaBed != null)
         {
             hospitalizations.Add(new Hospitalization
             {
                 Id = Guid.NewGuid(),
-                PatientId = patients["Яблонська"],
+                PatientId = patients["Сидоренко"],
                 BedId = yablonskaBed.Id,
                 AdmissionDateTime = DateTime.Now.AddDays(-1),
                 PlannedDischargeDateTime = DateTime.Now.AddDays(2),

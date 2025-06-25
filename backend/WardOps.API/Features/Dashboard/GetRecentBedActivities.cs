@@ -55,16 +55,16 @@ public static class GetRecentBedActivities
 
             return log.EventType switch
             {
-                BedEventType.Occupied => $"призначив(ла) пацієнта {patientName} на ліжко №{bedNumber}",
-                BedEventType.Freed => $"виписав(ла) пацієнта {patientName} з ліжка №{bedNumber}",
-                BedEventType.CleaningStarted => $"розпочав(ла) прибирання ліжка №{bedNumber}",
-                BedEventType.CleaningFinished => $"завершив(ла) прибирання ліжка №{bedNumber}",
-                BedEventType.MaintenanceScheduled => $"запланував(ла) обслуговування ліжка №{bedNumber}",
-                BedEventType.MaintenanceCompleted => $"завершив(ла) обслуговування ліжка №{bedNumber}",
-                BedEventType.ReservationCreated => $"зарезервував(ла) ліжко №{bedNumber}",
-                BedEventType.ReservationCancelled => $"скасував(ла) резервацію для ліжка №{bedNumber}",
-                BedEventType.StatusManuallyChanged => $"змінив(ла) статус ліжка №{bedNumber} вручну",
-                _ => $"виконав(ла) дію '{log.EventType}' з ліжком №{bedNumber}"
+                BedEventType.Occupied => $"призначив(ла) пацієнта {patientName} на ліжко {bedNumber}",
+                BedEventType.Freed => $"виписав(ла) пацієнта {patientName} з ліжка {bedNumber}",
+                BedEventType.CleaningStarted => $"розпочав(ла) прибирання ліжка {bedNumber}",
+                BedEventType.CleaningFinished => $"завершив(ла) прибирання ліжка {bedNumber}",
+                BedEventType.MaintenanceScheduled => $"запланував(ла) обслуговування ліжка {bedNumber}",
+                BedEventType.MaintenanceCompleted => $"завершив(ла) обслуговування ліжка {bedNumber}",
+                BedEventType.ReservationCreated => $"зарезервував(ла) ліжко {bedNumber}",
+                BedEventType.ReservationCancelled => $"скасував(ла) резервацію для ліжка {bedNumber}",
+                BedEventType.StatusManuallyChanged => $"змінив(ла) статус ліжка {bedNumber} вручну",
+                _ => $"виконав(ла) дію '{log.EventType}' з ліжком {bedNumber}"
             };
         }
     }

@@ -21,6 +21,7 @@ import HospitalizationViewDialog from "./components/HospitalizationViewDialog";
 import DischargePatientFormDialog from "./components/DischargePatientFormDialog";
 import { DischargePatientFormValues } from "@/schemas/hospitalization-schema";
 import { useHospitalizationForm } from "./hooks/useHospitalizationForm";
+import { useAuth } from "@/providers/authContext";
 
 interface DialogState {
   isAddPatientOpen: boolean;
@@ -35,9 +36,21 @@ interface DialogState {
 }
 
 export default function PatientManagement() {
-  const { patients, addPatient, updatePatient, deletePatient, isLoading } =
-    usePatient();
-  const { hospitalizations, dischargePatient } = useHospitalization();
+  const {
+    patients,
+    addPatient,
+    updatePatient,
+    deletePatient,
+    refetch,
+    isLoading,
+  } = usePatient();
+  const { user } = useAuth();
+
+  const {
+    hospitalizations,
+    dischargePatient,
+    refetch: refetchHospitalizations,
+  } = useHospitalization();
 
   const { form, setPatientData, resetForm } = usePatientForm();
   const { dischargeForm, resetForm: resetDischargeForm } =
@@ -46,8 +59,6 @@ export default function PatientManagement() {
   const [patientFormDialogMode, setPatientFormDialogMode] = useState<
     "add" | "edit"
   >("add");
-
-  console.log("Patients:", patients);
 
   const [activeTab, setActiveTab] = useState("patients");
   const [searchTerm, setSearchTerm] = useState("");
@@ -127,6 +138,7 @@ export default function PatientManagement() {
       await addPatient(patientData);
       setDialogState((prev) => ({ ...prev, isAddPatientOpen: false }));
       resetForm();
+      toast.success("Пацієнт успішно доданий");
     } catch (error) {
       console.error("Failed to add patient:", error);
       toast.error("Помилка при додаванні пацієнта");
@@ -175,6 +187,8 @@ export default function PatientManagement() {
         dialogState.selectedHospitalization!.patientId!,
         dischargeData,
       );
+      await refetch();
+      await refetchHospitalizations();
       setDialogState((prev) => ({
         ...prev,
         isDischargePatientOpen: false,
@@ -234,13 +248,17 @@ export default function PatientManagement() {
         <TabsContent value="hospitalizations" className="space-y-4">
           <HospitalizationList
             hospitalizations={hospitalizations}
+            currentUser={user}
             onViewHospitalization={onViewHospitalization}
             onDischargePatient={onDischargePatient}
           />
         </TabsContent>
 
         <TabsContent value="discharges" className="space-y-4">
-          <DischargeList hospitalizations={hospitalizations} />
+          <DischargeList
+            hospitalizations={hospitalizations}
+            currentUser={user}
+          />
         </TabsContent>
       </Tabs>
 

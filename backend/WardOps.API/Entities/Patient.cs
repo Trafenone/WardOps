@@ -17,4 +17,6 @@ public class Patient
     public PatientStatus Status { get; set; }
 
     public ICollection<Hospitalization> Hospitalizations { get; set; } = new List<Hospitalization>();
+
+    public string GetFullName => $"{FirstName} {LastName}";
 }

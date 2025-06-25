@@ -17,6 +17,7 @@ export interface AuthResponse {
   role: string;
   position: PositionType;
   departmentId?: string;
+  departmentName?: string;
   lastLogin?: Date;
   isActive: boolean;
 }

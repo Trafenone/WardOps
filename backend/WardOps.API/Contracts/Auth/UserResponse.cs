@@ -9,5 +9,7 @@ public class UserResponse
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
     public PositionType Position { get; set; }
-    public List<string> Roles { get; set; } = new List<string>();
+    public Guid? DepartmentId { get; set; }
+    public string? DepartmentName { get; set; }
+    public string Role { get; set; } = string.Empty;
 }

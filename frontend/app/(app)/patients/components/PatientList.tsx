@@ -32,7 +32,6 @@ import {
   Edit,
   MoreHorizontal,
   Phone,
-  Trash2,
   User,
 } from "lucide-react";
 import { useState } from "react";
@@ -50,7 +49,6 @@ export default function PatientList({
   searchTerm,
   onViewPatient,
   onEditPatient,
-  onDeletePatient,
 }: PatientListProps) {
   const [selectedStatus, setSelectedStatus] = useState<string>("all");
 
@@ -185,7 +183,7 @@ export default function PatientList({
                             <Edit className="mr-2 h-4 w-4" />
                             Редагувати
                           </DropdownMenuItem>
-                          {patient.status === PatientStatus.Inactive && (
+                          {/* {patient.status === PatientStatus.Inactive && (
                             <DropdownMenuItem
                               onClick={() => onDeletePatient(patient)}
                               className="text-red-600"
@@ -193,7 +191,7 @@ export default function PatientList({
                               <Trash2 className="mr-2 h-4 w-4" />
                               Видалити
                             </DropdownMenuItem>
-                          )}
+                          )} */}
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>

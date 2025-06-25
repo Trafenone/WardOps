@@ -1,7 +1,9 @@
 using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using WardOps.API.Contracts.Auth;
+using WardOps.API.Database;
 using WardOps.API.Entities;
 using WardOps.API.Services;
 
@@ -15,19 +17,26 @@ public static class GetCurrentUser
 
     internal sealed class Handler : IRequestHandler<Query, UserResponse?>
     {
+        private readonly ApplicationDbContext _dbContext;
         private readonly ICurrentUserService _currentUserService;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public Handler(ICurrentUserService currentUserService, UserManager<ApplicationUser> userManager)
+        public Handler(ApplicationDbContext dbContext, ICurrentUserService currentUserService, UserManager<ApplicationUser> userManager)
         {
+            _dbContext = dbContext;
             _currentUserService = currentUserService;
             _userManager = userManager;
         }
 
         public async Task<UserResponse?> Handle(Query request, CancellationToken cancellationToken)
         {
-            var user = await _currentUserService.GetCurrentUserAsync();
+            var userId = _currentUserService.GetCurrentUserId();
+            if (userId == null)
+                return null;
 
+            var user = await _dbContext.Users
+                .Include(u => u.Department)
+                .FirstOrDefaultAsync(u => u.Id == userId, cancellationToken);
             if (user == null)
                 return null;
 
@@ -40,7 +49,9 @@ public static class GetCurrentUser
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Position = user.Position,
-                Roles = roles.ToList()
+                DepartmentId = user.DepartmentId,
+                DepartmentName = user.Department?.Name,
+                Role = roles.FirstOrDefault() ?? ""
             };
         }
     }

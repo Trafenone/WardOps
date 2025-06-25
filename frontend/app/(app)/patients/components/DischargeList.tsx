@@ -11,19 +11,33 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { formatDateTime } from "@/lib/utils";
+import { ADMIN, STAFF } from "@/types/constants";
 import { HospitalizationStatus } from "@/types/enums";
-import { Hospitalization } from "@/types/models";
+import { Hospitalization, User } from "@/types/models";
 
 export interface DischaregeListProps {
   hospitalizations: Hospitalization[];
+  currentUser: User | null;
 }
 
 export default function DischargeList({
   hospitalizations,
+  currentUser,
 }: DischaregeListProps) {
-  const dischargedHospitalizations = hospitalizations.filter(
-    (h) => h.status === HospitalizationStatus.Discharged,
-  );
+  const dischargedHospitalizations = hospitalizations.filter((h) => {
+    if (currentUser?.role === ADMIN) {
+      return h.status === HospitalizationStatus.Discharged;
+    }
+
+    if (currentUser?.role === STAFF) {
+      return (
+        h.status === HospitalizationStatus.Discharged &&
+        h.departmentName === currentUser.departmentName
+      );
+    }
+
+    return false;
+  });
 
   const calculateTreatmentDuration = (hospitalizations: Hospitalization) => {
     const admissionDate = new Date(hospitalizations.admissionDateTime);

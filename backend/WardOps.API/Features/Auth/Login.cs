@@ -2,7 +2,9 @@ using Carter;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using WardOps.API.Contracts.Auth;
+using WardOps.API.Database;
 using WardOps.API.Entities;
 using WardOps.API.Services;
 
@@ -18,28 +20,31 @@ public static class Login
 
     internal sealed class Handler : IRequestHandler<Command, AuthResponse>
     {
+        private readonly ApplicationDbContext _dbContext;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ITokenService _tokenService;
 
-        public Handler(UserManager<ApplicationUser> userManager, ITokenService tokenService)
+        public Handler(ApplicationDbContext dbContext, UserManager<ApplicationUser> userManager, ITokenService tokenService)
         {
+            _dbContext = dbContext;
             _userManager = userManager;
             _tokenService = tokenService;
         }
 
         public async Task<AuthResponse> Handle(Command request, CancellationToken cancellationToken)
         {
-            var user = await _userManager.FindByEmailAsync(request.Email);
+            var user = await _dbContext.Users
+                .Include(u => u.Department)
+                .FirstOrDefaultAsync(u => u.Email == request.Email);
             if (user == null)
-            {
                 throw new InvalidOperationException("Invalid email or password");
-            }
 
             var isPasswordValid = await _userManager.CheckPasswordAsync(user, request.Password);
             if (!isPasswordValid)
-            {
                 throw new InvalidOperationException("Invalid email or password");
-            }
+
+            if (!user.IsActive)
+                throw new InvalidOperationException("Account is disabled");
 
             var token = await _tokenService.GenerateTokenAsync(user);
             var roles = await _userManager.GetRolesAsync(user);
@@ -52,6 +57,8 @@ public static class Login
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Position = user.Position,
+                DepartmentId = user.DepartmentId,
+                DepartmentName = user.Department?.Name,
                 Role = roles.FirstOrDefault() ?? ""
             };
         }

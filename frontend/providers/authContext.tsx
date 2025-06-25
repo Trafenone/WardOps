@@ -70,6 +70,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         position: authResponse.position,
         role: authResponse.role,
         departmentId: authResponse.departmentId,
+        departmentName: authResponse.departmentName,
         lastLogin: authResponse.lastLogin,
         isActive: authResponse.isActive,
       });

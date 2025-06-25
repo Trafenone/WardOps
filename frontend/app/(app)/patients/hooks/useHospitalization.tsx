@@ -63,17 +63,14 @@ export const useHospitalization = () => {
   ) => {
     setIsLoading(true);
     try {
-      const response = await HospitalizationService.dischargePatientByPatientId(
-        patientId,
-        {
-          actualDischargeDateTime: dischargeData.actualDischargeDateTime,
-          dischargeReason: dischargeData.dischargeReason,
-        },
-      );
+      await HospitalizationService.dischargePatientByPatientId(patientId, {
+        actualDischargeDateTime: dischargeData.actualDischargeDateTime,
+        dischargeReason: dischargeData.dischargeReason,
+      });
 
-      setHospitalizations((prev) =>
-        prev.map((h) => (h.patientId === patientId ? response : h)),
-      );
+      // setHospitalizations((prev) =>
+      //   prev.map((h) => (h.patientId === patientId ? response : h)),
+      // );
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : "Помилка при виписці пацієнта";

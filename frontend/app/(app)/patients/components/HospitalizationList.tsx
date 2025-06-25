@@ -11,25 +11,39 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Bed, Calendar, Clock } from "lucide-react";
-import { Hospitalization } from "@/types/models";
+import { Hospitalization, User } from "@/types/models";
 import { HospitalizationStatus } from "@/types/enums";
 import { formatDateTime } from "@/lib/utils";
 import { getStatusBadge } from "@/components/common";
+import { ADMIN, STAFF } from "@/types/constants";
 
 interface HospitalizationListProps {
   hospitalizations: Hospitalization[];
+  currentUser: User | null;
   onViewHospitalization: (hospitalization: Hospitalization) => void;
   onDischargePatient: (hospitalizationId: Hospitalization) => void;
 }
 
 export function HospitalizationList({
   hospitalizations,
+  currentUser,
   onViewHospitalization,
   onDischargePatient,
 }: HospitalizationListProps) {
-  const activeHospitalizations = hospitalizations.filter(
-    (h) => h.status === HospitalizationStatus.Active,
-  );
+  const activeHospitalizations = hospitalizations.filter((h) => {
+    if (currentUser?.role === ADMIN) {
+      return h.status === HospitalizationStatus.Active;
+    }
+
+    if (currentUser?.role === STAFF) {
+      return (
+        h.status === HospitalizationStatus.Active &&
+        h.departmentName === currentUser.departmentName
+      );
+    }
+
+    return false;
+  });
 
   return (
     <Card>

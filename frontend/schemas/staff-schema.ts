@@ -17,7 +17,7 @@ export const staffSchema = z.object({
   position: z.nativeEnum(PositionType, {
     required_error: "Оберіть посаду",
   }),
-  departmentId: z.string().optional(),
+  departmentId: z.string(),
   isActive: z.boolean(),
 });
 
